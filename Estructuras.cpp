@@ -2,6 +2,7 @@
 #include <string>
 #include <stdlib.h>
 #include <limits>
+
 using namespace std;
 
 struct Examen
@@ -12,6 +13,13 @@ struct Examen
     // poner las referencias hacia las listas de los dos tipos de preguntas
 };
 
+struct nodoMarqX
+{
+    string respEst,tipo,nomSec,resp;
+    string opciones[];
+    struct nodoMarqX* sig;
+    
+}*cabezaMarqX;
 
 
 int main() 

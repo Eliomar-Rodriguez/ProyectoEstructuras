@@ -40,10 +40,12 @@ struct nodoRespCort
      * tipo     ->  tipo de pregunta  ( marque x  ,  respuesta breve )
      * nomSec   ->  nombre de la seccion ( geografia, historia, geometria, numeros reales )
      * valor    ->  cantidad de puntos que va a valer esa pregunta
+     * porcAcierto -> porcentaje de igualdad que se acepta para dar por buena una respuesta
      */
     string numPreg,resp,respEst,tipo,nomSec;
     int porcAcierto = 60;
     int valor;
+    struct nodoRespCort* sig;
     
 }*cabezaRespCort;
 

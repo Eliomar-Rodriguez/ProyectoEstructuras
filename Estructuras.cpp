@@ -13,7 +13,7 @@ struct Examen
     // poner las referencias hacia las listas de los dos tipos de preguntas
 };
 
-struct nodoMarqX
+struct nodoMarqX 
 {
     string respEst,tipo,nomSec,resp;
     string opciones[];

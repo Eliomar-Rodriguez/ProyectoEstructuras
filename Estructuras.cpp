@@ -4,7 +4,7 @@
 #include <limits>
 
 using namespace std;
-//\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 struct Examen
 {
     string nombre;
@@ -24,8 +24,9 @@ struct MarqX
      * tipo     ->  tipo de pregunta  ( marque x  ,  respuesta breve )
      * nomSec   ->  nombre de la seccion ( geografia, historia, geometria, numeros reales )
      * valor    ->  cantidad de puntos que va a valer esa pregunta
+     * estado   ->  estado de la pregunta (correcta, incorrecta, incompleta)
      */
-    string numPreg,resp,respEst,tipo,nombSec;
+    string numPreg,resp,respEst,tipo,nombSec,estado;
     string opciones[];
     int valor;
     struct MarqX* sig;
@@ -43,11 +44,12 @@ struct RespCort
      * tipo     ->  tipo de pregunta  ( marque x  ,  respuesta breve )
      * nomSec   ->  nombre de la seccion ( geografia, historia, geometria, numeros reales )
      * valor    ->  cantidad de puntos que va a valer esa pregunta
-     * porcAcierto -> porcentaje de igualdad que se acepta para dar por buena una respuesta
+     * estado   ->  estado de la pregunta (correcta, incorrecta, incompleta)
+     * porcentaje -> porcentaje de acierto con la respuesta correcta
      */
-    string numPreg,resp,respEst,tipo,nomSec,pregunta;
-    int porcAcierto = 60;
+    string numPreg,resp,respEst,tipo,nomSec,pregunta,estado;
     int valor;
+    float porcentaje;
     struct RespCort* sig;
     
 }*cabezaRC;
@@ -55,20 +57,22 @@ struct RespCort
 //\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
+// Función que inserta nuevos examenes al final de la lista de examenes
 void insertarExamenes()
 {
-    //solicitar memoria
+    //se crea un nodo nuevo con la información del examen por crear
     struct Examen* nn;
     nn = new struct Examen; 
     string nom;
     string pro;
     
+    //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;
     getline(cin,nom);
     cout << "Digite el nombre del profe" << endl;
     getline(cin,pro);
     
-    //lleno datos
+    //se llenan los datos
     nn->nombre = nom;
     nn->profe  = pro;
     nn->total_puntos = 0;
@@ -77,7 +81,7 @@ void insertarExamenes()
     nn->nota  = 0;
     nn->sig = NULL;
 
-    //enlazar
+    //se enlaza el nuevo nodo al final de la lista
     if (cabezaExamen == NULL)
         cabezaExamen = nn;
     else
@@ -87,41 +91,55 @@ void insertarExamenes()
     }
 }
 
+//\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+//Función que imprime los examenes creados en el sistema
 void imprimirListaExamenes()
 {
-    struct Examen* temp = cabezaExamen;
+    struct Examen* temp = cabezaExamen; // se crea un temporal local para no modificar los datos originales
 
     while (temp != NULL)
     {
-        cout << temp->nombre << endl;
+        cout << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         temp = temp->sig;
     }
 }
 
+//\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+// Función que inserta nuevas preguntas de respuesta corta al final de la lista de preguntas de respuesta corta
 void insertarPreguntasCortas()
 {
-    //solicitar memoria
+    //se crea un nodo nuevo con la información de la pregunta por crear
     struct RespCort* nn;
     nn = new struct RespCort; 
     string pre;
     string res;
+    string val;
 
+    //se piden los datos al usuario
     cout << "Escriba la pregunta." << endl;
     getline(cin,pre);
     cout << "Escriba la respuesta de la pregunta." << endl;
     getline(cin,res);
+    for(int i = 0; res[i]; i++) 
+          res[i] = tolower(res[i]);
+    cout << "Escriba el valor de la pregunta." << endl;
+    getline(cin,val);
+    int valor = atoi(val.c_str()); ;
     
-    //lleno datos
+    //se llenan los datos
     nn->pregunta = pre;
     nn->resp = res;
     nn->respEst  = "";
     nn->tipo = "Corta";
     nn->nomSec = "";
-    nn->porcAcierto = 0;
-    nn->valor = 0;
+    nn->estado = "Incompleta";
+    nn->valor = valor;
+    nn->porcentaje = 0;
     nn->sig = NULL;
 
-    //enlazar
+    //se enlaza el nuevo nodo al final de la lista
     if (cabezaRC == NULL)
         cabezaRC = nn;
     else
@@ -130,7 +148,10 @@ void insertarPreguntasCortas()
         cabezaRC = nn;
     }
 }
+//\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+
+//Función que imprime las preguntas de respuesta corta creadas en el sistema y su respectiva respuesta correcta.
 void imprimirListaPreguntasRC()
 {
     struct RespCort* temp = cabezaRC;
@@ -142,11 +163,52 @@ void imprimirListaPreguntasRC()
         temp = temp->sig;
     }
 }
+
+
+//Funciòn que sirve para responder preguntas de Respuesta Corta
+void responderRC(RespCort*cabezaRC)
+{
+    string respuesta;
+    int contador = 0;
+    double coin = (cabezaRC->resp.length()*60)/100;
+    
+    if (cabezaRC != NULL){
+        cout << cabezaRC->pregunta << endl;
+        cout << "Digite su respuesta plz..." << endl;
+        getline(cin,respuesta);
+
+        for(int i = 0; respuesta[i]; i++) 
+          respuesta[i] = tolower(respuesta[i]);
+
+        cabezaRC->respEst = respuesta;
+        
+        for (int x = 0; cabezaRC->resp[x] != '\0' ;x++)
+            if (cabezaRC->resp[x] == respuesta[x])
+                contador++;
+        if (contador > coin){
+            cabezaRC->estado = "correcta";
+            cabezaRC->porcentaje = (contador*100)/cabezaRC->resp.length();}
+        else
+        {
+            cabezaRC->estado = "incorrecta";
+            cabezaRC->porcentaje = (contador*100)/cabezaRC->resp.length();}
+        }
+        
+        cout << "Respuesta Introducida = "+ cabezaRC->respEst <<endl;
+        cout << "Respuesta Correcta = " + cabezaRC->resp <<endl;
+        cout << "Estado de la pregunta = "+ cabezaRC->estado << endl;
+        cout << "Porcentaje de igualdad de la respuesta = ";
+        cout << cabezaRC->porcentaje;
+        cout << "%" << endl;
+}
+
 int main() 
 {
     //insertarExamenes();
     //imprimirListaExamenes();
-    //insertarPreguntasCortas();
+    //
+    insertarPreguntasCortas();
+    responderRC(cabezaRC);
     //imprimirListaPreguntasRC();
     return 0;
 }

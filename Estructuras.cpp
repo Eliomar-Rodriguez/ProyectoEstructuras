@@ -25,7 +25,7 @@ struct MarqX
      * nomSec   ->  nombre de la seccion ( geografia, historia, geometria, numeros reales )
      * valor    ->  cantidad de puntos que va a valer esa pregunta
      */
-    string numPreg,resp,respEst,tipo,nombSec;
+    string numPreg,resp,respEst,tipo,nombSec; // numero de pregunta, resp correcta, resp del estudiante, tipo de pregunta ())
     string opciones[];
     int valor;
     struct MarqX* sig;

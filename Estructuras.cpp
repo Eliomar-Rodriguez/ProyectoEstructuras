@@ -254,7 +254,8 @@ void imprimirListaPreguntasX()
 }
 
 
-int main() 
+
+int menu() 
 {
     //hola
     //insertarExamenes();

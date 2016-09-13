@@ -144,6 +144,7 @@ void imprimirListaPreguntasRC()
 }
 int main() 
 {
+    //hola
     //insertarExamenes();
     //imprimirListaExamenes();
     //insertarPreguntasCortas();

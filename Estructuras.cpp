@@ -77,6 +77,7 @@ void insertarExamenes()
         cabezaExamen = nn;
     }
 }
+//
 
 //Función que imprime los examenes creados en el sistema
 void imprimirListaExamenes()

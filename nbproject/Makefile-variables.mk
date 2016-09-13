@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=Cygwin-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/Cygwin-Windows
-CND_ARTIFACT_NAME_Debug=proyecto_de_estructuras_de_datos
-CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/proyecto_de_estructuras_de_datos
+CND_ARTIFACT_NAME_Debug=proyectoestructuras
+CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/proyectoestructuras
 CND_PACKAGE_DIR_Debug=dist/Debug/Cygwin-Windows/package
-CND_PACKAGE_NAME_Debug=proyectodeestructurasdedatos.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/proyectodeestructurasdedatos.tar
+CND_PACKAGE_NAME_Debug=proyectoestructuras.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/proyectoestructuras.tar
 # Release configuration
 CND_PLATFORM_Release=Cygwin-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/Cygwin-Windows
-CND_ARTIFACT_NAME_Release=proyecto_de_estructuras_de_datos
-CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/proyecto_de_estructuras_de_datos
+CND_ARTIFACT_NAME_Release=proyectoestructuras
+CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/proyectoestructuras
 CND_PACKAGE_DIR_Release=dist/Release/Cygwin-Windows/package
-CND_PACKAGE_NAME_Release=proyectodeestructurasdedatos.tar
-CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/proyectodeestructurasdedatos.tar
+CND_PACKAGE_NAME_Release=proyectoestructuras.tar
+CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/proyectoestructuras.tar
 #
 # include compiler specific variables
 #

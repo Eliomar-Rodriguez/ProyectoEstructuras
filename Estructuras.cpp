@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <limits>
 #include <sstream>
-    /* numPreg  ->  numero de pregunta
+    /* DECLARACION DE VARIABLES
+     * numPreg  ->  numero de pregunta
      * pregunta ->  la pregunta en si
      * resp     ->  respuesta correcta de la pregunta
      * respEst  ->  respuesta ingresada por el estudiante
@@ -17,8 +18,7 @@ using namespace std;
 
 struct Examen
 {
-    string nombre;
-    string profe;
+    string nombre,profe;
     int total_puntos,correctas,malas,nota;
     // poner las referencias hacia las listas de los dos tipos de preguntas
     struct Examen * sig;
@@ -51,8 +51,7 @@ void insertarExamenes()
     //se crea un nodo nuevo con la información del examen por crear
     struct Examen* nn;
     nn = new struct Examen; 
-    string nom;
-    string pro;
+    string nom,pro;  // nombre del examen, profesor
     
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;

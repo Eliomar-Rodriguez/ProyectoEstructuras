@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=ProyectoEstructuras
+PROJECTNAME=Proyecto de Estructuras de Datos
 
 # Active Configuration
 DEFAULTCONF=Debug

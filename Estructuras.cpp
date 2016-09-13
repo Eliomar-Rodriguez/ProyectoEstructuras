@@ -27,13 +27,10 @@ struct Examen
 // preguntas de marque con x
 struct MarqX 
 {
-    string numPreg,resp,respEst,tipo,nombSec; // numero de pregunta, resp correcta, resp del estudiante, tipo de pregunta ())
-    string opciones[];
-
     string numPreg,tipo,nomSec,estado,pregunta,resp,respEst;
     string opciones[5];
-
     int valor;
+    
     struct MarqX* sig;
     
 }*cabezaX;
@@ -100,7 +97,7 @@ void insertarPreguntasCortas()
     //se crea un nodo nuevo con la información de la pregunta por crear
     struct RespCort* nn;
     nn = new struct RespCort; 
-    string pre;
+    string pre; // pregunta, respuesta, valor de respuesta
     string res;
     string val;
 
@@ -209,8 +206,8 @@ void insertarPreguntasX()
         getline(cin,otra);
         if ((otra == "Y") || (otra == "y"))
             mas = true;
-        else if ((otra == "N") || (otra == "n"))
-            mas = false;    
+        else if ((otra == "N") || (otra == "n"))   // \falta_validar_ya_que_si_ingresa_una_letra 
+            mas = false;                          //   \diferente_a_esas_va_a_seguir_y_no_va_a_hacer_lo_que_se_necesita        
     }
     cout << "Escriba la opción correcta de la pregunta." << endl;
     getline(cin,res);

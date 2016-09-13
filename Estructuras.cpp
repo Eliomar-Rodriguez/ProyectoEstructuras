@@ -253,17 +253,46 @@ void imprimirListaPreguntasX()
     }
 }
 
+void menu()
+{   
+    string op;
+    cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
+    cout<<"=\t1. Crear Exámen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Exámen      \t\t\t\t=\n=\t5. Salir      \t\t\t\t=\n=\t";
+    cin >> op;
+    switch(op){
+        case "1":
+        {
+            break;
+        }
+        case "2":
+        {
+            break;
+        }
+        case "3":
+        {
+            break;
+        }     
+        case "4":
+        {
+            break;
+        }   
+        case "5":
+        {
+            break;
+        }   
+        default:
+        {
+            break;
+        }
+            
+    }
+    return;
+}
 
-
-int menu() 
+int main() 
 {
-    //hola
-    //insertarExamenes();
-    //imprimirListaExamenes();
-    //insertarPreguntasCortas();
-    //responderRC(cabezaRC);
-    //imprimirListaPreguntasRC();
-    insertarPreguntasX();
-    imprimirListaPreguntasX();
+    //insertarPreguntasX();
+    //imprimirListaPreguntasX();
+    menu();
     return 0;
 }

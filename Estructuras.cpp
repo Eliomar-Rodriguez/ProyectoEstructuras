@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <stdlib.h>
 #include <limits>
@@ -86,6 +86,7 @@ void imprimirListaExamenes()
 
     while (temp != NULL)
     {
+	//Mae estoy comentando algo...
         cout << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         temp = temp->sig;
     }

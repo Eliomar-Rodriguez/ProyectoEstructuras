@@ -155,7 +155,7 @@ void responderRC(RespCort*cabezaRC)
     double coin = (cabezaRC->resp.length()*60)/100; // porcentaje mínimo de semejanza en la respuesta para acertar o fallar la pregunta.
 
     if (cabezaRC != NULL){
-        cout << cabezaRC->pregunta << endl;
+        cout << cabezaRC->pregunta << "(" << cabezaRC->valor << "pts)" << endl;
         cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
         getline(cin,respuesta);
 
@@ -254,6 +254,34 @@ void imprimirListaPreguntasX()
     }
 }
 
+void responderX(MarqX*cabezaX)
+{
+    string respuesta;
+
+    if (cabezaX != NULL){
+        cout << cabezaX->pregunta << "(" << cabezaX->valor << "pts)" << endl;
+        for (int x = 0; cabezaX->opciones[x] != "" ;x++){ //ciclo que revisa caracter por caracter para validar la respuesta.
+            cout << x+1 << ") " << cabezaX->opciones[x] << endl;
+        }
+        cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
+        getline(cin,respuesta);
+
+        cabezaX->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
+
+        if (respuesta == cabezaX->resp)
+            cabezaX->estado = "correcta";  //se guarda la pregunta como "correcta" si la cantidad de coincidencias es mayor al 60% de la pregunta.
+        else
+
+            cabezaX->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
+
+        //Codigo para despues...
+        cout << "Respuesta Introducida = "+ cabezaX->respEst <<endl;
+        cout << "Respuesta Correcta = " + cabezaX->resp <<endl;
+        cout << "Estado de la pregunta = "+ cabezaX->estado << endl;
+    }
+}
+
+
 void menu()
 {
     int op;
@@ -299,8 +327,9 @@ void menu()
 
 int main()
 {
-    //insertarPreguntasX();
-    //imprimirListaPreguntasX();
-    menu();
+    insertarPreguntasX();
+    responderX(cabezaX);
+    imprimirListaPreguntasX();
+    //menu();
     return 0;
 }

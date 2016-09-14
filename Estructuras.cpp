@@ -1,8 +1,13 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <stdlib.h>
 #include <limits>
 #include <sstream>
+    
+using namespace std;
+
+struct Examen
+{
     /* DECLARACION DE VARIABLES
      * numPreg  ->  numero de pregunta
      * pregunta ->  la pregunta en si
@@ -14,10 +19,6 @@
      * estado   ->  estado de la pregunta (correcta, incorrecta, incompleta)
      * porcentaje -> porcentaje de acierto con la respuesta correcta
      */
-using namespace std;
-
-struct Examen
-{
     string nombre,profe;
     int total_puntos,correctas,malas,nota;
     // poner las referencias hacia las listas de los dos tipos de preguntas
@@ -86,7 +87,11 @@ void imprimirListaExamenes()
 
     while (temp != NULL)
     {
+
         //\esto_es_una_prueba
+
+	//Mae estoy comentando algo...
+
         cout << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         temp = temp->sig;
     }
@@ -256,22 +261,22 @@ void imprimirListaPreguntasX()
 
 void menu()
 {   
-    string op;
+    int op;
     cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
     cout<<"=\t1. Crear Exámen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Exámen      \t\t\t\t=\n=\t5. Salir      \t\t\t\t=\n=\t";
     cin >> op;
     switch(op){
-        case "1":
+        case 1:
         {
             // ingresar a crear examen
             break;
         }
-        case "2":
+        case 2:
         {
             // ingresar a modificar
             break;
         }
-        case "3":
+        /*case "3":
         {
             // ingresar a borrar
             break;
@@ -285,7 +290,7 @@ void menu()
         {
             // salir
             break;
-        }   
+        } */  
         default:
         {
             

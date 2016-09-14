@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <limits>
 #include <sstream>
+#include<conio.h>
+#include<windows.h>
 
 using namespace std;
 
@@ -256,44 +258,44 @@ void imprimirListaPreguntasX()
 
 void menu()
 {
-    int op;
-    cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
-    cout<<"=\t1. Crear Exámen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Exámen      \t\t\t\t=\n=\t5. Salir\t\t\t\t\t\t=\n=\t";
-    cin >> op;
-    switch(op){
-        case 1:
-        {
-            // ingresar a crear examen
-            break;
+        int op;
+        cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
+        cout<<"=\t1. Crear Examen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Examen      \t\t\t\t=\n=\t5. Salir\t\t\t\t\t\t=\n=\t";
+        cin >> op;
+        switch(op){
+            case 1:
+                {
+                    cout<<"Opcion 1";
+                    break;
+                }
+            case 2:
+                {
+                    cout<<"Opcion 2";
+                    break;
+                }
+            case 3:
+                {
+                    cout<<"Opcion 3";
+                    break;
+                }
+            case 4:
+                {
+                    cout<<"Opcion 4";
+                    break;
+                }
+            case 5:
+                {
+                    cout<<"Opcion 5";
+                    exit(0);
+                    break;
+                }
+            default:
+                {
+                    cout<<"* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n* \t\tLa opcion ingresada no es correcta\t\t* \n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n";
+                    exit(0);
+                    break;
+                }
         }
-        case 2:
-        {
-            // ingresar a modificar
-            break;
-        }
-        case 3:
-        {
-            // ingresar a borrar
-            break;
-        }
-        case 4:
-        {
-            // realizar programas
-            break;
-        }
-        case 5:
-        {
-            exit(0);
-            break;
-        }
-        default:
-        {
-
-            break;
-        }
-        cout<< "hola";
-
-    }
     return;
 }
 

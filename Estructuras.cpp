@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <limits>
 #include <sstream>
-    
+
 using namespace std;
 
 struct Examen
@@ -26,14 +26,14 @@ struct Examen
 }*cabezaExamen;
 
 // preguntas de marque con x
-struct MarqX 
+struct MarqX
 {
     string numPreg,tipo,nomSec,estado,pregunta,resp,respEst;
     string opciones[5];
     int valor;
-    
+
     struct MarqX* sig;
-    
+
 }*cabezaX;
 
 //preguntas de respuesta breve
@@ -43,7 +43,7 @@ struct RespCort
     int valor;
     float porcentaje;
     struct RespCort* sig;
-    
+
 }*cabezaRC;
 
 // Función que inserta nuevos examenes al final de la lista de examenes
@@ -51,15 +51,15 @@ void insertarExamenes()
 {
     //se crea un nodo nuevo con la información del examen por crear
     struct Examen* nn;
-    nn = new struct Examen; 
+    nn = new struct Examen;
     string nom,pro;  // nombre del examen, profesor
-    
+
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;
     getline(cin,nom);
     cout << "Digite el nombre del profe" << endl;
     getline(cin,pro);
-    
+
     //se llenan los datos
     nn->nombre = nom;
     nn->profe  = pro;
@@ -87,11 +87,6 @@ void imprimirListaExamenes()
 
     while (temp != NULL)
     {
-
-        //\esto_es_una_prueba
-
-	//Mae estoy comentando algo...
-
         cout << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         temp = temp->sig;
     }
@@ -102,7 +97,7 @@ void insertarPreguntasCortas()
 {
     //se crea un nodo nuevo con la información de la pregunta por crear
     struct RespCort* nn;
-    nn = new struct RespCort; 
+    nn = new struct RespCort;
     string pre; // pregunta, respuesta, valor de respuesta
     string res;
     string val;
@@ -112,12 +107,12 @@ void insertarPreguntasCortas()
     getline(cin,pre);
     cout << "Escriba la respuesta de la pregunta." << endl;
     getline(cin,res);
-    for(int i = 0; res[i]; i++) 
+    for(int i = 0; res[i]; i++)
           res[i] = tolower(res[i]);
     cout << "Escriba el valor de la pregunta." << endl;
     getline(cin,val);
     int valor = atoi(val.c_str()); ;
-    
+
     //se llenan los datos
     nn->pregunta = pre;
     nn->resp = res;
@@ -158,17 +153,17 @@ void responderRC(RespCort*cabezaRC)
     string respuesta;
     int contador = 0;
     double coin = (cabezaRC->resp.length()*60)/100; // porcentaje mínimo de semejanza en la respuesta para acertar o fallar la pregunta.
-    
+
     if (cabezaRC != NULL){
         cout << cabezaRC->pregunta << endl;
         cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
         getline(cin,respuesta);
 
-        for(int i = 0; respuesta[i]; i++) 
+        for(int i = 0; respuesta[i]; i++)
           respuesta[i] = tolower(respuesta[i]); //se transforma la respuesta a caracteres en minuscula.
 
         cabezaRC->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
-        
+
         for (int x = 0; cabezaRC->resp[x] != '\0' ;x++) //ciclo que revisa caracter por caracter para validar la respuesta.
             if (cabezaRC->resp[x] == respuesta[x])
                 contador++;     //se lleva un contador con la cantidad de caracteres similares
@@ -180,7 +175,7 @@ void responderRC(RespCort*cabezaRC)
             cabezaRC->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
             cabezaRC->porcentaje = (contador*100)/cabezaRC->resp.length();} //se guarda el porcentaje de acierto para desplegarlo más adelante.
         }
-        
+
         cout << "Respuesta Introducida = "+ cabezaRC->respEst <<endl;
         cout << "Respuesta Correcta = " + cabezaRC->resp <<endl;
         cout << "Estado de la pregunta = "+ cabezaRC->estado << endl;
@@ -194,7 +189,7 @@ void insertarPreguntasX()
 {
     //se crea un nodo nuevo con la información de la pregunta por crear
     struct MarqX* nn;
-    nn = new struct MarqX; 
+    nn = new struct MarqX;
     string pre;
     string res;
     string val;
@@ -212,17 +207,17 @@ void insertarPreguntasX()
         getline(cin,otra);
         if ((otra == "Y") || (otra == "y"))
             mas = true;
-        else if ((otra == "N") || (otra == "n"))   // \falta_validar_ya_que_si_ingresa_una_letra 
-            mas = false;                          //   \diferente_a_esas_va_a_seguir_y_no_va_a_hacer_lo_que_se_necesita        
+        else if ((otra == "N") || (otra == "n"))   // \falta_validar_ya_que_si_ingresa_una_letra
+            mas = false;                          //   \diferente_a_esas_va_a_seguir_y_no_va_a_hacer_lo_que_se_necesita
     }
     cout << "Escriba la opción correcta de la pregunta." << endl;
     getline(cin,res);
     nn->resp = res;
-    
+
     cout << "Escriba el valor de la pregunta." << endl;
     getline(cin,val);
     int valor = atoi(val.c_str());
-    
+
     //se llenan los datos
     nn->pregunta = pre;
     nn->resp = res;
@@ -260,10 +255,10 @@ void imprimirListaPreguntasX()
 }
 
 void menu()
-{   
+{
     int op;
     cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
-    cout<<"=\t1. Crear Exámen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Exámen      \t\t\t\t=\n=\t5. Salir      \t\t\t\t=\n=\t";
+    cout<<"=\t1. Crear Exámen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Exámen      \t\t\t\t=\n=\t5. Salir\t\t\t\t\t\t=\n=\t";
     cin >> op;
     switch(op){
         case 1:
@@ -276,32 +271,33 @@ void menu()
             // ingresar a modificar
             break;
         }
-        /*case "3":
+        case 3:
         {
             // ingresar a borrar
             break;
-        }     
-        case "4":
+        }
+        case 4:
         {
             // realizar programas
             break;
-        }   
-        case "5":
+        }
+        case 5:
         {
-            // salir
-            break;
-        } */  
-        default:
-        {
-            
+            exit(0);
             break;
         }
-            
+        default:
+        {
+
+            break;
+        }
+        cout<< "hola";
+
     }
     return;
 }
 
-int main() 
+int main()
 {
     //insertarPreguntasX();
     //imprimirListaPreguntasX();

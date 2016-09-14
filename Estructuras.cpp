@@ -283,7 +283,7 @@ void responderX(MarqX*cabezaX)
 }
 void editSecSelecUnic()// editar nombre de las secciones de seleccion unica marque con x
 {
-    struct MarqX* temp = cabezaX
+    struct MarqX* temp = cabezaX;
     cout<<"Necesito acceder a nombre para cambiarlo -> geografia biologia o cosas asi"<<endl;
 }
 void editSecRespCort()// editar nombre de las secciones de respuesta corta
@@ -293,13 +293,13 @@ void editSecRespCort()// editar nombre de las secciones de respuesta corta
 }
 void editPregSelecUnic() //editar preguntas de seleccion unica
 {
-    struct MarqX* temp = cabezaX
+    struct MarqX* temp = cabezaX;
 
 }
 void menu()
 {
     system("cls");
-        char op,opEdit;
+        char op,opEdit,opDel;
         cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
         cout<<"=\t1. Crear Examen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Examen      \t\t\t\t=\n=\t5. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
         op = getche(); //obtener opcion
@@ -312,7 +312,6 @@ void menu()
                 }
             case '2':
                 {
-
                     system("cls");
                     cout<<"=================================================================\n=\t\t\t  Menu de edicion\t\t\t=\n=================================================================\n";
                     cout<<"=\t1. Modificar secciones de Seleccion Unica      \t\t=\n=\t2. Modificar secciones de Respuesta Corta\t\t=\n=\t3. Modificar pregunrtas de Seleccion Unica\t\t=\n=\t4. Modificar preguntas de Respuesta Breve\t\t=\n=\t5. Menu principal\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
@@ -357,7 +356,46 @@ void menu()
                 }
             case '3':
                 {
-                    cout<<"Borrar preguntas y secciones";
+                    system("cls");
+                    cout<<"=================================================================\n=\t\t\t  Menu de eliminacion\t\t\t=\n=================================================================\n";
+                    cout<<"=\t1. Eliminar secciones de Seleccion Unica      \t\t=\n=\t2. Eliminar secciones de Respuesta Corta\t\t=\n=\t3. Eliminar pregunrtas de Seleccion Unica\t\t=\n=\t4. Eliminar preguntas de Respuesta Breve\t\t=\n=\t5. Menu principal\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+                    opDel = getche();
+                    cout <<endl;
+                    switch(opDel)
+                    {
+                        case '1':
+                            {
+                                cout<<"Falta relajado compa...";
+                                break;
+                            }
+                        case '2':
+                            {
+                                //eliminar
+                                break;
+                            }
+                        case '3':
+                            {
+                                //eliminar
+                                break;
+                            }
+                        case '4':
+                            {
+                                //eliminar
+                                break;
+                            }
+                        case '5':
+                            {
+                                menu();
+                                break;
+                            }
+                        default:
+                            {
+                                cout<<"\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n* \t\tLa opcion ingresada no es correcta\t\t* \n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n";
+                                system("pause");
+                                menu();
+                                break;
+                            }
+                    }
                     break;
                 }
             case '4':

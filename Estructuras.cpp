@@ -5,12 +5,7 @@
 #include <sstream>
 #include<conio.h>
 #include<windows.h>
-
-using namespace std;
-
-struct Examen
-{
-    /* DECLARACION DE VARIABLES
+/* DECLARACION DE VARIABLES
      * numPreg  ->  numero de pregunta
      * pregunta ->  la pregunta en si
      * resp     ->  respuesta correcta de la pregunta
@@ -21,6 +16,10 @@ struct Examen
      * estado   ->  estado de la pregunta (correcta, incorrecta, incompleta)
      * porcentaje -> porcentaje de acierto con la respuesta correcta
      */
+using namespace std;
+
+struct Examen
+{
     string nombre,profe;
     int total_puntos,correctas,malas,nota;
     // poner las referencias hacia las listas de los dos tipos de preguntas
@@ -47,7 +46,7 @@ struct RespCort
     struct RespCort* sig;
 
 }*cabezaRC;
-
+struct Examen listaExamenes[10];
 // Función que inserta nuevos examenes al final de la lista de examenes
 void insertarExamenes()
 {
@@ -157,7 +156,7 @@ void responderRC(RespCort*cabezaRC)
     double coin = (cabezaRC->resp.length()*60)/100; // porcentaje mínimo de semejanza en la respuesta para acertar o fallar la pregunta.
 
     if (cabezaRC != NULL){
-        cout << cabezaRC->pregunta << endl;
+        cout << cabezaRC->pregunta << "(" << cabezaRC->valor << "pts)" << endl;
         cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
         getline(cin,respuesta);
 
@@ -256,43 +255,128 @@ void imprimirListaPreguntasX()
     }
 }
 
+void responderX(MarqX*cabezaX)
+{
+    string respuesta;
+
+    if (cabezaX != NULL){
+        cout << cabezaX->pregunta << "(" << cabezaX->valor << "pts)" << endl;
+        for (int x = 0; cabezaX->opciones[x] != "" ;x++){ //ciclo que revisa caracter por caracter para validar la respuesta.
+            cout << x+1 << ") " << cabezaX->opciones[x] << endl;
+        }
+        cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
+        getline(cin,respuesta);
+
+        cabezaX->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
+
+        if (respuesta == cabezaX->resp)
+            cabezaX->estado = "correcta";  //se guarda la pregunta como "correcta" si la cantidad de coincidencias es mayor al 60% de la pregunta.
+        else
+
+            cabezaX->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
+
+        //Codigo para despues...
+        cout << "Respuesta Introducida = "+ cabezaX->respEst <<endl;
+        cout << "Respuesta Correcta = " + cabezaX->resp <<endl;
+        cout << "Estado de la pregunta = "+ cabezaX->estado << endl;
+    }
+}
+void editSecSelecUnic()// editar nombre de las secciones de seleccion unica marque con x
+{
+    struct MarqX* temp = cabezaX
+    cout<<"Necesito acceder a nombre para cambiarlo -> geografia biologia o cosas asi"<<endl;
+}
+void editSecRespCort()// editar nombre de las secciones de respuesta corta
+{
+    struct RespCort* temp = cabezaRC;
+    cout<<"Necesito acceder a nombre para cambiarlo -> geografia biologia o cosas asi"<<endl;
+}
+void editPregSelecUnic() //editar preguntas de seleccion unica
+{
+    struct MarqX* temp = cabezaX
+
+}
 void menu()
 {
-        int op;
+    system("cls");
+        char op,opEdit;
         cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
-        cout<<"=\t1. Crear Examen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Examen      \t\t\t\t=\n=\t5. Salir\t\t\t\t\t\t=\n=\t";
-        cin >> op;
+        cout<<"=\t1. Crear Examen      \t\t\t\t\t=\n=\t2. Modificar Preguntas / Secciones\t\t\t=\n=\t3. Borrar Preguntas / Secciones\t\t\t\t=\n=\t4. Realizar Examen      \t\t\t\t=\n=\t5. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+        op = getche(); //obtener opcion
+        cout <<endl;
         switch(op){
-            case 1:
+            case '1':
                 {
-                    cout<<"Opcion 1";
+                    cout<<"Crear examen";
                     break;
                 }
-            case 2:
+            case '2':
                 {
-                    cout<<"Opcion 2";
+
+                    system("cls");
+                    cout<<"=================================================================\n=\t\t\t  Menu de edicion\t\t\t=\n=================================================================\n";
+                    cout<<"=\t1. Modificar secciones de Seleccion Unica      \t\t=\n=\t2. Modificar secciones de Respuesta Corta\t\t=\n=\t3. Modificar pregunrtas de Seleccion Unica\t\t=\n=\t4. Modificar preguntas de Respuesta Breve\t\t=\n=\t5. Menu principal\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+                    opEdit = getche();
+                    cout <<endl;
+                    switch(opEdit)
+                    {
+                        case '1':
+                            {
+                                editSecSelecUnic();
+                                break;
+                            }
+                        case '2':
+                            {
+                                cout<<"Editar secc resp cort";
+                                break;
+                            }
+                        case '3':
+                            {
+                                cout<<"Editar preg selec unica";
+                                break;
+                            }
+                        case '4':
+                            {
+                                cout<<"Editar preg resp cort";
+                                break;
+                            }
+                        case '5':
+                            {
+                                menu();
+                                break;
+                            }
+                        default:
+                            {
+                                cout<<"\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n* \t\tLa opcion ingresada no es correcta\t\t* \n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n";
+                                system("pause");
+                                menu();
+                                break;
+                            }
+                    }
                     break;
                 }
-            case 3:
+            case '3':
                 {
-                    cout<<"Opcion 3";
+                    cout<<"Borrar preguntas y secciones";
                     break;
                 }
-            case 4:
+            case '4':
                 {
-                    cout<<"Opcion 4";
+                    cout<<"Realizar examen";
                     break;
                 }
-            case 5:
+            case '5':
                 {
-                    cout<<"Opcion 5";
+                    cout<<"Salir";
                     exit(0);
                     break;
                 }
             default:
                 {
-                    cout<<"* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n* \t\tLa opcion ingresada no es correcta\t\t* \n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n";
-                    exit(0);
+                    cout<<"\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n* \t\tLa opcion ingresada no es correcta\t\t* \n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n";
+                    system("pause");
+                    menu();
+                    //exit(0);
                     break;
                 }
         }
@@ -302,6 +386,7 @@ void menu()
 int main()
 {
     //insertarPreguntasX();
+    //responderX(cabezaX);
     //imprimirListaPreguntasX();
     menu();
     return 0;

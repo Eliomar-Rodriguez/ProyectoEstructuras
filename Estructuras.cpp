@@ -86,6 +86,7 @@ void imprimirListaExamenes()
 
     while (temp != NULL)
     {
+        //\esto_es_una_prueba
         cout << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         temp = temp->sig;
     }
@@ -262,26 +263,32 @@ void menu()
     switch(op){
         case "1":
         {
+            // ingresar a crear examen
             break;
         }
         case "2":
         {
+            // ingresar a modificar
             break;
         }
         case "3":
         {
+            // ingresar a borrar
             break;
         }     
         case "4":
         {
+            // realizar programas
             break;
         }   
         case "5":
         {
+            // salir
             break;
         }   
         default:
         {
+            
             break;
         }
             

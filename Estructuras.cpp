@@ -96,6 +96,8 @@ void imprimirListaExamenes()
 // Función que inserta nuevas preguntas de respuesta corta al final de la lista de preguntas de respuesta corta
 void insertarPreguntasCortas()
 {
+    cout<<"=================================================================\n=\t\t\tInsercion de preguntas de Respuesta Corta \t\t\t=\n=================================================================\n";
+
     //se crea un nodo nuevo con la información de la pregunta por crear
     struct RespCort* nn;
     nn = new struct RespCort;
@@ -104,7 +106,7 @@ void insertarPreguntasCortas()
     string val;
 
     //se piden los datos al usuario
-    cout << "Escriba la pregunta." << endl;
+    cout << "Escriba la pregunta que desea ingresar." << endl;
     getline(cin,pre);
     cout << "Escriba la respuesta de la pregunta." << endl;
     getline(cin,res);
@@ -120,7 +122,7 @@ void insertarPreguntasCortas()
     nn->respEst  = "";
     nn->tipo = "Corta";
     nn->nomSec = "";
-    nn->estado = "Incompleta";
+    nn->estado = "incompleta";
     nn->valor = valor;
     nn->porcentaje = 0;
     nn->sig = NULL;
@@ -189,64 +191,6 @@ void responderRC(RespCort*cabezaRC)
         cout << "%" << endl;
 }
 
-// Función que inserta nuevas preguntas de marcar con x al final de la lista de preguntas de marque con x.
-void insertarPreguntasX()
-{
-    //se crea un nodo nuevo con la información de la pregunta por crear
-    struct MarqX* nn;
-    nn = new struct MarqX;
-    string res,val,pre;
-    char otra;
-    bool mas = true;
-
-    //se piden los datos al usuario
-    cout << "Escriba la pregunta." << endl;
-    //pre=getche();
-    getline(cin,pre);
-    for (int x = 0; mas != false; x++){
-        cout << "\nEscriba una opcion de respuesta para la pregunta." << endl;
-        getline(cin,res);
-        nn->opciones[x] = res;
-        cout << "\nDesea agregar otra opcion de respuesta? Y/N" << endl;
-        otra=getche();
-        if ((otra == 'Y') || (otra == 'y'))
-            mas = true;
-        else if ((otra == 'N') || (otra == 'n'))   // \falta_validar_ya_que_si_ingresa_una_letra
-            break;
-            //mas = false;                          //   \diferente_a_esas_va_a_seguir_y_no_va_a_hacer_lo_que_se_necesita
-        else
-        {
-            cout<<"\nDebe de ingresar una de las opciones indicadas."<<endl;
-        }
-    }
-    cout << "\nEscriba la opcion correcta de la pregunta." << endl;
-    getline(cin,res);
-    nn->resp = res;
-
-    cout << "Escriba el valor de la pregunta." << endl;
-    getline(cin,val);
-    int valor = atoi(val.c_str());
-
-    //se llenan los datos
-    nn->pregunta = pre;
-    nn->resp = res;
-    nn->respEst  = "";
-    nn->tipo = "X";
-    nn->nomSec = "";
-    nn->estado = "Incompleta";
-    nn->valor = valor;
-    nn->sig = NULL;
-
-    //se enlaza el nuevo nodo al final de la lista
-    if (cabezaX == NULL)
-        cabezaX = nn;
-    else
-    {
-        nn->sig = cabezaX;
-        cabezaX = nn;
-    }
-    return;
-}
 //Función que imprime las preguntas de marcar con x creadas en el sistema y su respectiva respuesta correcta.
 void imprimirListaPreguntasX()
 {
@@ -272,7 +216,7 @@ void responderX(MarqX*cabezaX)
         for (int x = 0; cabezaX->opciones[x] != "" ;x++){ //ciclo que revisa caracter por caracter para validar la respuesta.
             cout << x+1 << ") " << cabezaX->opciones[x] << endl;
         }
-        cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
+        cout << "Digite su respuesta." << endl;   //se introduce la respuesta a la pregunta
         getline(cin,respuesta);
 
         cabezaX->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
@@ -330,7 +274,7 @@ void menu()
         system("cls");
         char op,opEdit,opDel;
         cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
-        cout<<"=\t[1]. Crear Examen      \t\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+        cout<<"=\t[1]. Crear Examen      \t\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
         op = getche(); //obtener opcion
         cout <<endl;
         switch(op){
@@ -343,7 +287,7 @@ void menu()
                 {
                     system("cls");
                     cout<<"=================================================================\n=\t\t\t  Menu de edicion\t\t\t=\n=================================================================\n";
-                    cout<<"=\t[1]. Modificar nombre de secciones de Seleccion Unica      \t\t=\n=\t[2]. Modificar nombre de secciones de Respuesta Corta\t\t=\n=\t[3]. Modificar preguntas de Seleccion Unica\t\t=\n=\t[4]. Modificar preguntas de Respuesta Breve\t\t=\n=\t[5]. Menu principal\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+                    cout<<"=\t[1]. Modificar nombre de secciones de Seleccion Unica\t=\n=\t[2]. Modificar nombre de secciones de Respuesta Corta\t=\n=\t[3]. Modificar preguntas de Seleccion Unica\t\t=\n=\t[4]. Modificar preguntas de Respuesta Breve\t\t=\n=\t[5]. Menu principal\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
                     opEdit = getche();
                     cout <<endl;
                     switch(opEdit)
@@ -387,7 +331,7 @@ void menu()
                 {
                     system("cls");
                     cout<<"=================================================================\n=\t\t\t  Menu de eliminacion\t\t\t=\n=================================================================\n";
-                    cout<<"=\t[1]. Eliminar secciones de Seleccion Unica      \t\t=\n=\t[2]. Eliminar secciones de Respuesta Corta\t\t=\n=\t[3]. Eliminar preguntas de Seleccion Unica\t\t=\n=\t[4]. Eliminar preguntas de Respuesta Breve\t\t=\n=\t[5]. Menu principal\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+                    cout<<"=\t[1]. Eliminar secciones de Seleccion Unica\t\t=\n=\t[2]. Eliminar secciones de Respuesta Corta\t\t=\n=\t[3]. Eliminar preguntas de Seleccion Unica\t\t=\n=\t[4]. Eliminar preguntas de Respuesta Breve\t\t=\n=\t[5]. Menu principal\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
                     opDel = getche();
                     cout <<endl;
                     switch(opDel)
@@ -449,16 +393,91 @@ void menu()
         }
     return;
 }
+// Función que inserta nuevas preguntas de marcar con x al final de la lista de preguntas de marque con x.
+void insertarPreguntasX()
+{
+    system("cls");
+    cout<<"=================================================================\n=\t    Insercion de preguntas de Seleccion Unica\t\t=\n=================================================================\n";
+
+    //se crea un nodo nuevo con la información de la pregunta por crear
+    struct MarqX* nn;
+    nn = new struct MarqX;
+    string res,val,pre;
+    char otra;
+    bool mas = true;
+
+    //se piden los datos al usuario
+    cout << "Escriba la pregunta que desea ingresar." << endl;
+    cout<<"\t";
+    getline(cin,pre);
+    for (int x = 0; mas != false; x++){
+        cout << "\nEscriba una OPCION de respuesta para la pregunta (mala)." << endl;
+        cout<<"\t";
+        getline(cin,res);
+        nn->opciones[x] = res;
+        cout << "\nDesea agregar mas opciones de respuesta? Y/N" << endl;
+        otra=getche();
+        if ((otra == 'Y') || (otra == 'y'))
+            mas = true;
+        else if ((otra == 'N') || (otra == 'n'))   // \falta_validar_ya_que_si_ingresa_una_letra
+            break;
+            //mas = false;                          //   \diferente_a_esas_va_a_seguir_y_no_va_a_hacer_lo_que_se_necesita
+        else
+        {
+            cout<<"\n\nDebe de ingresar una de las opciones indicadas. La pregunta ingresada no se guardo, intentalo de nuevo./n"<<endl;
+            Sleep(2000);
+            insertarPreguntasX();
+        }
+    }
+    cout << "\nEscriba la opcion correcta de la pregunta." << endl;
+    getline(cin,res);
+    nn->resp = res;
+
+    cout << "\nEscriba el valor de la pregunta." << endl;
+    getline(cin,val);
+    int valor = atoi(val.c_str());
+
+    //se llenan los datos
+    nn->pregunta = pre;
+    nn->resp = res;
+    nn->respEst  = "";
+    nn->tipo = "X";
+    nn->nomSec = "";
+    nn->estado = "Incompleta";
+    nn->valor = valor;
+    nn->sig = NULL;
+
+    //se enlaza el nuevo nodo al final de la lista
+    if (cabezaX == NULL)
+        cabezaX = nn;
+    else
+    {
+        nn->sig = cabezaX;
+        cabezaX = nn;
+    }
+    cout<<"Desea ingresar otra pregunta? Y / N"<<endl;
+    otra=getche();
+    if ((otra == 'Y') || (otra == 'y'))
+        insertarPreguntasX();
+    else if ((otra == 'N') || (otra == 'n'))   // \falta_validar_ya_que_si_ingresa_una_letra
+        menu();
+    else
+    {
+        cout<<"\nDebe de ingresar una de las opciones indicadas. Si desea agregar mas pregutas debera ingresar nuevamente."<<endl;
+        Sleep(2000);
+        insertarPreguntasX();
+    }
+}
 
 int main()
 {
 
     insertarPreguntasX();
-    insertarPreguntasX();
+    //insertarPreguntasX();
     //insertarPreguntasX();
     //responderX(cabezaX);
     //imprimirListaPreguntasX();
-    //menu();
-    delPregMarqX();
+    menu();
+    //delPregMarqX();
     return 0;
 }

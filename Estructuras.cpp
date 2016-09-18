@@ -5,6 +5,7 @@
 #include <sstream>
 #include<conio.h>
 #include<windows.h>
+int cantExams = 1;
 /* DECLARACION DE VARIABLES
      * numPreg  ->  numero de pregunta
      * pregunta ->  la pregunta en si
@@ -21,7 +22,7 @@ using namespace std;
 struct Examen
 {
     string nombre,profe;
-    int total_puntos,correctas,malas,nota;
+    int total_puntos,correctas,malas,nota,numExam;
     // poner las referencias hacia las listas de los dos tipos de preguntas
     struct Examen * sig;
 }*cabezaExamen;
@@ -62,6 +63,7 @@ void insertarExamenes()
     getline(cin,pro);
 
     //se llenan los datos
+    nn->numExam = cantExams;
     nn->nombre = nom;
     nn->profe  = pro;
     nn->total_puntos = 0;
@@ -78,17 +80,16 @@ void insertarExamenes()
         nn->sig = cabezaExamen;
         cabezaExamen = nn;
     }
+    cantExams ++ ;
 }
-//
 
 //Función que imprime los examenes creados en el sistema
 void imprimirListaExamenes()
 {
     struct Examen* temp = cabezaExamen; // se crea un temporal local para no modificar los datos originales
-
     while (temp != NULL)
     {
-        cout << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
+        cout <<temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         temp = temp->sig;
     }
 }
@@ -471,13 +472,19 @@ void insertarPreguntasX()
 
 int main()
 {
+    insertarExamenes();
+    insertarExamenes();
+    insertarExamenes();
+    Sleep(3000);
+    imprimirListaExamenes();
 
-    insertarPreguntasX();
+
+    //insertarPreguntasX();
     //insertarPreguntasX();
     //insertarPreguntasX();
     //responderX(cabezaX);
     //imprimirListaPreguntasX();
-    menu();
+    //menu();
     //delPregMarqX();
     return 0;
 }

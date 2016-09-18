@@ -23,6 +23,7 @@ struct Examen
     string nombre,profe;
     int total_puntos,correctas,malas,nota;
     // poner las referencias hacia las listas de los dos tipos de preguntas
+    struct Secciones*cabezaSec;
     struct Examen * sig;
 }*cabezaExamen;
 
@@ -32,7 +33,6 @@ struct MarqX
     string numPreg,tipo,nomSec,estado,pregunta,resp,respEst;
     string opciones[5];
     int valor;
-
     struct MarqX* sig;
 
 }*cabezaX;
@@ -46,6 +46,17 @@ struct RespCort
     struct RespCort* sig;
 
 }*cabezaRC;
+
+//secciones
+struct Secciones
+{
+    string nombre = "";
+    struct RespCort* cabezacorta;
+    struct MarqX* cabezaequis;
+    struct Secciones* sig;
+};
+
+
 struct Examen listaExamenes[10];
 // Función que inserta nuevos examenes al final de la lista de examenes
 void insertarExamenes()
@@ -119,7 +130,7 @@ void insertarPreguntasCortas()
     nn->resp = res;
     nn->respEst  = "";
     nn->tipo = "Corta";
-    nn->nomSec = "";
+    nn->nomSec =  "";
     nn->estado = "Incompleta";
     nn->valor = valor;
     nn->porcentaje = 0;

@@ -189,45 +189,61 @@ struct Secciones*insertarSecciones()
     equis = new struct MarqX;
     bool mas = true;
     string nom;  // nombre del examen
+    char otra,tipo;
+    int ex = 0,rc = 0;
 
     //se piden los datos al usuario
     cout << "Digite el nombre de la Seccion" << endl;
     getline(cin,nom);
-    while (mas == true){
-        cout << "Desea ingresar una pregunta? Y/N" << endl;
-        otra = getche();
-        if ((otra == 'Y') || (otra == 'y')){
-            mas = true;
-            continue;}
-        else if ((otra == 'N') || (otra == 'n'))   // \falta_validar_ya_que_si_ingresa_una_letra
-            break;
-            //mas = false;                          //   \diferente_a_esas_va_a_seguir_y_no_va_a_hacer_lo_que_se_necesita
-        else
-        {
-            cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo./n"<<endl;
-            Sleep(2000);
-            insertarSecciones();
+    cout << "Que tipo de seccion desea agregar?\n1) Seleccion Unica\n2) Respuesta Corta" << endl;
+    tipo = getche();
+    cout << "\n";
+    if (tipo == '1'){
+        while (mas == true){
+            cout << "Desea ingresar una pregunta? Y/N" << endl;
+            otra = getche();
+            cout << "\n";
+            if ((otra == 'Y') || (otra == 'y')){
+                equis = insertarPreguntasX();
+                nn->preguntasx[ex] = equis;
+                ex++;}
+            else if ((otra == 'N') || (otra == 'n'))
+                break;
+            else
+            {
+                cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
+                Sleep(2000);
+                insertarSecciones();
+            }
         }
-        cout << "Qué tipo de pregunta desea agregar?/n1) Marque con X/n2) Respuesta Corta" << endl;
-        tipo = getche();
-        if (tipo == '1'){
-            mas = true;
-            continue;}
-        else if ((otra == 'N') || (otra == 'n'))   // \falta_validar_ya_que_si_ingresa_una_letra
-            break;
-            //mas = false;                          //   \diferente_a_esas_va_a_seguir_y_no_va_a_hacer_lo_que_se_necesita
-        else
-        {
-            cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo./n"<<endl;
-            Sleep(2000);
-            insertarSecciones();
-        }
-        cort = insertarPreguntasCortas();
-        equis = insertarPreguntasX();
     }
+    else if (tipo == '2'){
+        while (mas == true){
+            cout << "Desea ingresar una pregunta? Y/N" << endl;
+            otra = getche();
+            cout << "\n";
+            if ((otra == 'Y') || (otra == 'y')){
+                cort = insertarPreguntasCortas();
+                nn->preguntascortas[rc] = cort;
+                rc++;}
+            else if ((otra == 'N') || (otra == 'n'))
+                break;
+            else
+                {
+                cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
+                Sleep(2000);
+                insertarSecciones();
+                }
+            }
+    }
+    else
+        {
+        cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
+        Sleep(2000);
+        insertarSecciones();
+        }
     //se llenan los datos
     nn->nombre = nom;
-    nn->preguntascortas[0] = cort;
     nn->sig = NULL;
 
     //se enlaza el nuevo nodo al final de la lista
@@ -244,13 +260,17 @@ struct Secciones*insertarSecciones()
 void imprimirSecciones()
 {
     struct Secciones* temp = cabezaSec;
+    //int i = 0;
 
     while (temp != NULL)
     {
         cout << temp->nombre << endl;
-        //for (int i = 0; i < 5; i++){
-        cout << temp->preguntascortas[0]->pregunta << endl;
-        //}
+        /* PUEDE SER UTIL
+        while (temp->preguntasx[i]->sig != NULL){
+            //cout << temp->preguntascortas[i]->pregunta << endl;
+            cout << temp->preguntasx[i]->pregunta << endl;
+            i++;
+        }*/
         temp = temp->sig;
     }
 }
@@ -387,18 +407,19 @@ struct MarqX* insertarPreguntasX()
   }
     x ++;
 
-    cout<<"Desea ingresar otra pregunta? Y / N"<<endl;
+    /*cout<<"Desea ingresar otra pregunta? Y / N"<<endl;
     otra=getche();
     if ((otra == 'Y') || (otra == 'y'))
         insertarPreguntasX();
     else if ((otra == 'N') || (otra == 'n'))   // \falta_validar_ya_que_si_ingresa_una_letra
-        menu();
+        imprimirSecciones();
+        //menu();
     else
     {
         cout<<"\nDebe de ingresar una de las opciones indicadas. Si desea agregar mas pregutas debera ingresar nuevamente."<<endl;
         Sleep(2000);
         insertarPreguntasX();
-    }
+    }*/
 }
 
 //Función que imprime las preguntas de marcar con x creadas en el sistema y su respectiva respuesta correcta.

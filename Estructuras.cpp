@@ -310,15 +310,23 @@ void delPregMarqX()
 void menu()
 {
         system("cls");
-        char op,opEdit,opDel;
+        char op,opEdit,opDel,opExam;
         cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
-        cout<<"=\t[1]. Crear Examen      \t\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+        cout<<"=\t[1]. Crear Examen / Secciones      \t\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
         op = getche(); //obtener opcion
         cout <<endl;
         switch(op){
             case '1':
                 {
-                    cout<<"Crear examen";
+                    cout<<"Mostrar lista de nombres de Examenes disponibles";
+                    opExamn = getche();
+                    switch(opExam)
+                    {
+                    case '1':
+                        {
+                            break;
+                        }
+                    }
                     break;
                 }
             case '2':
@@ -506,7 +514,10 @@ void insertarPreguntasX()
         insertarPreguntasX();
     }
 }
+void insertManualMarqX()
+{
 
+}
 int main()
 {
     insertarExamenes();

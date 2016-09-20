@@ -67,7 +67,9 @@ struct Secciones
 }*cabezaSec;
 
 
-//struct Examen listaExamenes[15];
+struct Examen listaExamenes[15];
+
+
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
 {
@@ -135,7 +137,8 @@ void imprimirListaExamenes()
     while (temp != NULL)
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
-        cout << temp->listaSecciones[i]->nombre << endl;
+        //cout << temp->listaSecciones[i]->nombre << endl;
+        i++;
         temp = temp->sig;
     }
 }
@@ -232,8 +235,8 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                //equis = insertarPreguntasX();
-                //nn->preguntasx[ex] = equis;
+                equis = insertarPreguntasX();
+                nn->preguntasx[ex] = equis;
                 ex++;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -241,7 +244,7 @@ struct Secciones*insertarSecciones()
             {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
                 Sleep(2000);
-                //insertarSecciones();
+                insertarSecciones();
             }
         }
     }
@@ -251,8 +254,8 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                //cort = insertarPreguntasCortas();
-                //nn->preguntascortas[rc] = cort;
+                cort = insertarPreguntasCortas();
+                nn->preguntascortas[rc] = cort;
                 rc++;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -260,7 +263,7 @@ struct Secciones*insertarSecciones()
                 {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
                 Sleep(2000);
-                //insertarSecciones();
+                insertarSecciones();
                 }
             }
     }
@@ -268,7 +271,7 @@ struct Secciones*insertarSecciones()
         {
         cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
         Sleep(2000);
-        //insertarSecciones();
+        insertarSecciones();
         }
     //se llenan los datos
     nn->nombre = nom;
@@ -282,9 +285,9 @@ struct Secciones*insertarSecciones()
         nn->sig = cabezaSec;
         cabezaSec = nn;
     }
-    tempExam->listaSecciones[cantSec]=nn;
+    /*tempExam->listaSecciones[cantSec]=nn;
     //tempExam->listaSecciones[cantSec]->nombre = nom;
-    tempExam=tempExam->sig;
+    tempExam=tempExam->sig;*/
     cantSec++;
 }
 
@@ -756,11 +759,12 @@ int main()
 
     //insertarSecciones();
     insertarExamenes();
+    insertarExamenes();
     imprimirListaExamenes();
     //Sleep(300);
     //imprimirSecciones();
 
-    delPregMarqX();
+    //delPregMarqX();
     //insertarPreguntasX();
     //insertarPreguntasCortas();
     /*insertarPreguntasCortas();

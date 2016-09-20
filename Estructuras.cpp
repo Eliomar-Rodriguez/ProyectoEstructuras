@@ -59,8 +59,8 @@ struct Secciones
 {
     string nombre = "";
     int numSec =0,cantPregX=0,cantPregC=0;  ///cantPregX y cantPregC se utilizan como un tipo de lenght de cada lista de preguntas
-    struct RespCort* preguntascortas;
-    struct MarqX* preguntasx;
+    struct RespCort* preguntasCortas;
+    struct MarqX* preguntasX;
     struct Secciones* sig;
 }*cabezaSec;
 
@@ -233,7 +233,7 @@ struct Secciones*insertarSecciones()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->cantPregX++;
                 equis = insertarPreguntasX(pregX);
-                nn->preguntasx->sig = equis;
+                nn->preguntasX->sig = equis;
                 pregX++;
                 }
             else if ((otra == 'N') || (otra == 'n'))
@@ -254,7 +254,7 @@ struct Secciones*insertarSecciones()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->cantPregC++;
                 cort = insertarPreguntasCortas(pregC);
-                nn->preguntascortas->sig = cort;
+                nn->preguntasCortas->sig = cort;
                 pregC++;
                 }
             else if ((otra == 'N') || (otra == 'n'))
@@ -783,7 +783,7 @@ void delPregMarqX()
         else if ((x < tempExam->totSec)&&(opSecc == tempExam->listaSecciones[x]->numSec))  // aqui ya encontro la seccion en la cual quiero eliminar preguntas
         {
             /// se imprimiran todas las preguntas de marque con x aqui
-            while((tempExam->listaSecciones[x]->preguntasx[z]!=NULL)&&(z < tempExam->listaSecciones[x]->cantPregX)) /// buscando preguntas marq x para mostrarlas
+            while((tempExam->listaSecciones->sig->preguntasX[z]!=NULL)&&(z < tempExam->listaSecciones[x]->cantPregX)) /// buscando preguntas marq x para mostrarlas
             {
                 if ((tempExam->listaSecciones[x]->preguntasx[z]!=NULL)&&(tempExam->listaSecciones[x]->preguntasx[z]->numPreg != 0))
                     cout << tempExam->listaSecciones[x]->preguntasx[z]->numPreg<<") "<<tempExam->listaSecciones[x]->preguntasx[z]->pregunta<<" ("<<tempExam->listaSecciones[x]->preguntasx[z]->valor<<" pts)"<<endl;

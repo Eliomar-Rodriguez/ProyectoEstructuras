@@ -87,7 +87,7 @@ struct Examen*insertarExamenes()
     cout << "Digite el nombre de la seccion" << endl;
     getline(cin,nomb);
     //nn->listaSecciones[cantExams-1]->nombre="Primera seccion";
-    /*
+
     while (mas == true){
             cout << "Desea ingresar una seccion? Y/N" << endl;
             otra = getche();
@@ -95,16 +95,17 @@ struct Examen*insertarExamenes()
             if ((otra == 'Y') || (otra == 'y')){
                 sect = insertarSecciones();
                 nn->listaSecciones[ss] = sect;
+                cout << sect->nombre << endl;
                 ss++;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
             else
             {
-                cout<<"\n\nDebe de ingresar una de las opciones indicadas. La exmamen no se guardo, intentalo de nuevo.\n"<<endl;
+                cout<<"\n\nDebe de ingresar una de las opciones indicadas. El exmamen no se guardo, intentalo de nuevo.\n"<<endl;
                 Sleep(2000);
                 insertarExamenes();
             }
-        }*/
+        }
 
 
     //se llenan los datos
@@ -137,7 +138,7 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
     while (temp != NULL)
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
-        //cout << temp->listaSecciones[i]->nombre << endl;
+        cout << temp->listaSecciones[i]->nombre << endl;
         i++;
         temp = temp->sig;
     }
@@ -212,7 +213,7 @@ struct Secciones*insertarSecciones()
     struct Secciones* nn;
     struct RespCort* cort;
     struct MarqX* equis;
-    struct Examen *tempExam = cabezaExamen;
+    //struct Examen *tempExam = cabezaExamen;
     nn = new struct Secciones;
     cort = new struct RespCort;
     equis = new struct MarqX;
@@ -289,6 +290,7 @@ struct Secciones*insertarSecciones()
     //tempExam->listaSecciones[cantSec]->nombre = nom;
     tempExam=tempExam->sig;*/
     cantSec++;
+    return nn;
 }
 
 //Función que imprime las preguntas de respuesta corta creadas en el sistema y su respectiva respuesta correcta.
@@ -759,10 +761,11 @@ int main()
 
     //insertarSecciones();
     insertarExamenes();
-    insertarExamenes();
+    //insertarExamenes();
+    //imprimirSecciones();
     imprimirListaExamenes();
     //Sleep(300);
-    //imprimirSecciones();
+
 
     delPregMarqX();
     //insertarPreguntasX();

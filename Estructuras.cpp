@@ -84,9 +84,6 @@ struct Examen*insertarExamenes()
     getline(cin,nom);
     cout << "Digite el nombre del profe" << endl;
     getline(cin,pro);
-    cout << "Digite el nombre de la seccion" << endl;
-    getline(cin,nomb);
-    //nn->listaSecciones[cantExams-1]->nombre="Primera seccion";
 
     while (mas == true){
             cout << "Desea ingresar una seccion? Y/N" << endl;
@@ -285,7 +282,7 @@ struct Secciones*insertarSecciones()
         nn->sig = cabezaSec;
         cabezaSec = nn;
     }
-    tempExam->listaSecciones[cantSec-1]->nombre;
+    //tempExam->listaSecciones[cantSec-1]->nombre;
     /*tempExam->listaSecciones[cantSec]=nn;
     //tempExam->listaSecciones[cantSec]->nombre = nom;
     tempExam=tempExam->sig;*/
@@ -517,7 +514,7 @@ void editPregSelecUnic() //editar preguntas de seleccion unica
 }
 void delPregMarqX()
 {
-    system("cls");
+
     struct Examen* tempExam = cabezaExamen;
     int opExam;
     struct MarqX* temp= cabezaX;
@@ -533,11 +530,7 @@ void delPregMarqX()
 
     while((tempExam->sig!=NULL) && (tempExam->numExam!= opExam))
     {
-        if (tempExam->sig==NULL)
-        {
-            break;
-        }
-
+        tempExam=tempExam->sig;
     }
     if (tempExam!=NULL)
     {

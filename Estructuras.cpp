@@ -6,11 +6,8 @@
 #include<conio.h>
 #include<windows.h>
 
-int preg = 1;
-int cantExams = 1;
-int cantSec =1;
-int x = 1;
-struct MarqX* insertarPreguntasX();
+int cantExams = 1,cantSec =0,x = 1;
+struct MarqX* insertarPreguntasX(int numP);
 struct Secciones*insertarSecciones();
 void menu();
 /* DECLARACION DE VARIABLES
@@ -29,7 +26,7 @@ using namespace std;
 struct Examen
 {
     string nombre,profe;
-    int total_puntos,correctas,malas,nota,numExam;
+    int total_puntos,correctas,malas,nota,numExam,totSec;
     struct Secciones* listaSecciones[10];
     struct Examen * sig;
 }*cabezaExamen;
@@ -37,9 +34,9 @@ struct Examen
 // preguntas de marque con x
 struct MarqX
 {
-    string numPreg,tipo,nomSec,estado,pregunta,resp,respEst;
+    string tipo,nomSec,estado,pregunta,resp,respEst;
     string opciones[5];
-    int valor;
+    int valor,numPreg=0;
     struct MarqX* sig;
     struct MarqX* ant;
 
@@ -48,8 +45,8 @@ struct MarqX
 //preguntas de respuesta breve
 struct RespCort
 {
-    string numPreg,resp,respEst,tipo,nomSec,pregunta,estado;
-    int valor;
+    string resp,respEst,tipo,nomSec,pregunta,estado;
+    int valor,numPreg=0;
     float porcentaje;
     struct RespCort* sig;
     struct RespCort* ant;
@@ -60,9 +57,9 @@ struct RespCort
 struct Secciones
 {
     string nombre = "";
-    int numSec =0;
-    struct RespCort* preguntascortas[10];
-    struct MarqX* preguntasx[10];
+    int numSec =0,cantPregX=0,cantPregC=0;
+    struct RespCort* preguntascortas[20];
+    struct MarqX* preguntasx[20];
     struct Secciones* sig;
 }*cabezaSec;
 
@@ -70,6 +67,7 @@ struct Secciones
 struct Examen*insertarExamenes()
 {
     //se crea un nodo nuevo con la información del examen por crear
+
     struct Examen* nn;
     struct Secciones* sect;
     sect = new struct Secciones;
@@ -78,6 +76,7 @@ struct Examen*insertarExamenes()
   // nombre del examen, profesor
     char otra;
     bool mas = true;
+    nn->totSec =0;
     int ss = 0;
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;
@@ -90,6 +89,7 @@ struct Examen*insertarExamenes()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
+                nn->totSec++;
                 sect = insertarSecciones();
                 nn->listaSecciones[ss] = sect;
                 cout << sect->nombre << endl;
@@ -103,7 +103,6 @@ struct Examen*insertarExamenes()
                 insertarExamenes();
             }
         }
-
 
     //se llenan los datos
     nn->numExam = cantExams;
@@ -123,7 +122,6 @@ struct Examen*insertarExamenes()
         nn->sig = cabezaExamen;
         cabezaExamen = nn;
     }
-    //cabezaExamen->listaSecciones[cantSec-1]->nombre=nomb;
     cantExams ++ ;
 }
 
@@ -135,14 +133,15 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
     while (temp != NULL)
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
-        cout << temp->listaSecciones[i]->nombre << endl;
-        i++;
+        while(temp->listaSecciones[i]!=NULL){
+            cout << temp->listaSecciones[i]->nombre << endl;
+            i++;}
         temp = temp->sig;
     }
 }
 
 // Función que inserta nuevas preguntas de respuesta corta al final de la lista de preguntas de respuesta corta
-struct RespCort* insertarPreguntasCortas()
+struct RespCort* insertarPreguntasCortas(int numP)
 {
     cout<<"=================================================================\n=\t    Insercion de preguntas de Respuesta Breve \t\t=\n=================================================================\n";
     //se crea un nodo nuevo con la información de la pregunta por crear
@@ -175,7 +174,7 @@ struct RespCort* insertarPreguntasCortas()
     nn->estado = "incompleta";
     nn->valor = valor;
     nn->porcentaje = 0;
-    nn->numPreg = preg;
+    nn->numPreg = numP;
     nn->sig = NULL;
     nn->ant = NULL;
 
@@ -198,8 +197,7 @@ struct RespCort* insertarPreguntasCortas()
      temp->sig = nn;
      if (nn->sig)
         nn->sig->ant = nn;
-  }
-    preg ++;
+  };
 }
 //Funcion que crea secciones en un examen
 
@@ -218,8 +216,8 @@ struct Secciones*insertarSecciones()
     char otra,tipo;
 
     string nom;  // nombre del examen
-    int ex = 0,rc = 0;
-    nn->numSec = cantSec;
+    int ex = 0,rc = 0,pregX=1,pregC=1;
+    nn->numSec = cantSec+1;
     //se piden los datos al usuario
     cout << "Digite el nombre de la Seccion" << endl;
     getline(cin,nom);
@@ -232,9 +230,12 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                equis = insertarPreguntasX();
+                nn->cantPregX++;
+                equis = insertarPreguntasX(pregX);
                 nn->preguntasx[ex] = equis;
-                ex++;}
+                ex++;
+                pregX++;
+                }
             else if ((otra == 'N') || (otra == 'n'))
                 break;
             else
@@ -251,9 +252,12 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                cort = insertarPreguntasCortas();
+                nn->cantPregC++;
+                cort = insertarPreguntasCortas(pregC);
                 nn->preguntascortas[rc] = cort;
-                rc++;}
+                rc++;
+                pregC++;
+                }
             else if ((otra == 'N') || (otra == 'n'))
                 break;
             else
@@ -282,10 +286,6 @@ struct Secciones*insertarSecciones()
         nn->sig = cabezaSec;
         cabezaSec = nn;
     }
-    //tempExam->listaSecciones[cantSec-1]->nombre;
-    /*tempExam->listaSecciones[cantSec]=nn;
-    //tempExam->listaSecciones[cantSec]->nombre = nom;
-    tempExam=tempExam->sig;*/
     cantSec++;
     return nn;
 }
@@ -365,7 +365,7 @@ void responderRC(RespCort*cabezaRC)
 }
 
 // Función que inserta nuevas preguntas de marcar con x al final de la lista de preguntas de marque con x.
-struct MarqX* insertarPreguntasX()
+struct MarqX* insertarPreguntasX(int numP)
 {
     system("cls");
     cout<<"=================================================================\n=\t    Insercion de preguntas de Seleccion Unica\t\t=\n=================================================================\n";
@@ -397,7 +397,7 @@ struct MarqX* insertarPreguntasX()
         {
             cout<<"\n\nDebe de ingresar una de las opciones indicadas. La pregunta ingresada no se guardo, intentalo de nuevo./n"<<endl;
             Sleep(1000);
-            insertarPreguntasX();
+            insertarPreguntasX(numP);
         }
     }
     cout << "\nEscriba la opcion correcta de la pregunta." << endl;
@@ -414,6 +414,7 @@ struct MarqX* insertarPreguntasX()
     nn->respEst  = "";
     nn->tipo = "X";
     nn->nomSec = "";
+    nn->numPreg=numP;
     nn->estado = "incompleta";
     nn->valor = valor;
     nn->sig = NULL;
@@ -516,10 +517,11 @@ void delPregMarqX()
 {
 
     struct Examen* tempExam = cabezaExamen;
-    int opExam;
+    int opExam,opSecc;
     struct MarqX* temp= cabezaX;
-    int numPreg = 1;
-    while(tempExam->sig!=NULL)
+    int numPreg = 1,y=0,x=0,z=0;
+
+    while(tempExam!=NULL)
     {
         if (tempExam->numExam != 0)//validacion para que no imprima puros 0)
             cout<< tempExam->numExam << ") "<< tempExam->nombre <<endl;
@@ -527,28 +529,47 @@ void delPregMarqX()
     }
     cout<<"Seleccione el examen en cual desea eliminar preguntas."<<endl;
     cin>>opExam;
+    tempExam = cabezaExamen;
 
-    while((tempExam->sig!=NULL) && (tempExam->numExam!= opExam))
+    while((tempExam!=NULL) && (tempExam->numExam!= opExam))
     {
         tempExam=tempExam->sig;
     }
-    if (tempExam!=NULL)
+    if ((tempExam==NULL)||(tempExam->numExam!= opExam))
     {
         cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
         delPregMarqX();
     }
-    else if (tempExam->numExam == opExam)
+    else if ((tempExam!=NULL)&&(tempExam->numExam == opExam))  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
     {
-        for (int y=0; y<15; y++)
-        {
-            if (tempExam->listaSecciones[y]->numSec != 0)
-                cout<< tempExam->listaSecciones[y]->numSec<< ") "<< tempExam->listaSecciones[y]->nombre <<endl;
-        }
+            while(y < tempExam->totSec){
+                if ((tempExam->listaSecciones[y]!=NULL)&&(tempExam->listaSecciones[y]->numSec != 0)){
+                    cout<< tempExam->listaSecciones[y]->numSec<< ") "<< tempExam->listaSecciones[y]->nombre <<endl;
+                }
+                y++;
+            }
         cout<<"Seleccione la seccion en la cual desea eliminar preguntas."<<endl;
-        cin>>opExam;
-        for(int z=0;z<15;z++)
+        cin>>opSecc;
+        while((x < tempExam->totSec)&&(opSecc!=tempExam->listaSecciones[x]->numSec))
         {
-            //cout<<listaExamenes[cont].listaSecciones[z].numSec<<") "<<listaExamenes[cont].listaSecciones[z].nombre<<endl;
+            x++;
+        }
+        if ((x == tempExam->totSec)||(tempExam->listaSecciones[x]->numSec!= opSecc))    // sino encuentra la seccion indicada
+        {
+            cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
+            delPregMarqX();
+        }
+        else if ((x < tempExam->totSec)&&(opSecc == tempExam->listaSecciones[x]->numSec))  // aqui ya encontro la seccion en la cual quiero eliminar preguntas
+        {
+            cout<<"Lo encuentra pero la caga este while"<<endl;
+
+            /// se imprimiran todas las preguntas de marque con x aqui
+            while((tempExam->listaSecciones[x]->preguntasx[z]!=NULL)&&(z < tempExam->listaSecciones[x]->cantPregX)) /// buscando preguntas marq x para mostrarlas
+            {
+                if ((tempExam->listaSecciones[x]->preguntasx[z]!=NULL)&&(tempExam->listaSecciones[x]->preguntasx[z]->numPreg != 0))
+                    cout << tempExam->listaSecciones[x]->preguntasx[z]->numPreg<<") "<<tempExam->listaSecciones[x]->preguntasx[z]->pregunta<<endl;
+                z++;
+            }
         }
     }
 
@@ -755,7 +776,7 @@ int main()
     //insertarSecciones();
     insertarExamenes();
     //imprimirSecciones();
-    imprimirListaExamenes();
+    //imprimirListaExamenes();
     //Sleep(300);
 
 
@@ -766,9 +787,6 @@ int main()
     insertarPreguntasCortas();
     insertarPreguntasCortas();
     imprimirListaPreguntasRC();*/
-
-    cout << "Mae, todavía no lo supero... un simple careguaba return... Carajo!!" << endl;
-    cout << "Y el Visual Studio me la pela... XD" << endl;
 
     return 0;
 }

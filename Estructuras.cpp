@@ -66,10 +66,6 @@ struct Secciones
     struct Secciones* sig;
 }*cabezaSec;
 
-
-struct Examen listaExamenes[15];
-
-
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
 {
@@ -78,16 +74,19 @@ struct Examen*insertarExamenes()
     struct Secciones* sect;
     sect = new struct Secciones;
     nn = new struct Examen;
-    string nom,pro;  // nombre del examen, profesor
+    string nom,pro,nomb;  // nombre del examen, profesor
+  // nombre del examen, profesor
     char otra;
     bool mas = true;
     int ss = 0;
-
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;
     getline(cin,nom);
     cout << "Digite el nombre del profe" << endl;
     getline(cin,pro);
+    cout << "Digite el nombre de la seccion" << endl;
+    getline(cin,nomb);
+    //nn->listaSecciones[cantExams-1]->nombre="Primera seccion";
 
     while (mas == true){
             cout << "Desea ingresar una seccion? Y/N" << endl;
@@ -127,11 +126,12 @@ struct Examen*insertarExamenes()
         nn->sig = cabezaExamen;
         cabezaExamen = nn;
     }
-    cantExams ++;
+    //cabezaExamen->listaSecciones[cantSec-1]->nombre=nomb;
+    cantExams ++ ;
 }
 
 //Función que imprime los examenes creados en el sistema
-void imprimirListaExamenes()
+void imprimirListaExamenes()    /// lo mas seguro es que se elimine
 {
     struct Examen* temp = cabezaExamen;// se crea un temporal local para no modificar los datos originales
     int i = 0;
@@ -218,7 +218,6 @@ struct Secciones*insertarSecciones()
     cort = new struct RespCort;
     equis = new struct MarqX;
     bool mas = true;
-
     char otra,tipo;
 
     string nom;  // nombre del examen
@@ -286,6 +285,7 @@ struct Secciones*insertarSecciones()
         nn->sig = cabezaSec;
         cabezaSec = nn;
     }
+    tempExam->listaSecciones[cantSec-1]->nombre;
     /*tempExam->listaSecciones[cantSec]=nn;
     //tempExam->listaSecciones[cantSec]->nombre = nom;
     tempExam=tempExam->sig;*/
@@ -294,7 +294,7 @@ struct Secciones*insertarSecciones()
 }
 
 //Función que imprime las preguntas de respuesta corta creadas en el sistema y su respectiva respuesta correcta.
-void imprimirSecciones()
+void imprimirSecciones()    /// lo mas seguro es que se elimine
 {
     struct Secciones* temp = cabezaSec;
     //int i = 0;
@@ -766,7 +766,7 @@ int main()
     //Sleep(300);
 
 
-    //delPregMarqX();
+    delPregMarqX();
     //insertarPreguntasX();
     //insertarPreguntasCortas();
     /*insertarPreguntasCortas();

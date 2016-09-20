@@ -74,13 +74,16 @@ void insertarExamenes()
     //se crea un nodo nuevo con la información del examen por crear
     struct Examen* nn;
     nn = new struct Examen;
-    string nom,pro;  // nombre del examen, profesor
+    string nom,pro,nomb;  // nombre del examen, profesor
 
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;
     getline(cin,nom);
     cout << "Digite el nombre del profe" << endl;
     getline(cin,pro);
+    cout << "Digite el nombre de la seccion" << endl;
+    getline(cin,nomb);
+    //nn->listaSecciones[cantExams-1]->nombre="Primera seccion";
 
     //se llenan los datos
     nn->numExam = cantExams;
@@ -100,6 +103,7 @@ void insertarExamenes()
         nn->sig = cabezaExamen;
         cabezaExamen = nn;
     }
+    //cabezaExamen->listaSecciones[cantSec-1]->nombre=nomb;
     cantExams ++ ;
 }
 

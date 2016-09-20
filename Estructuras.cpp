@@ -10,6 +10,7 @@ int preg = 1;
 int cantExams = 1;
 int x = 1;
 struct MarqX* insertarPreguntasX();
+struct Secciones*insertarSecciones();
 void menu();
 /* DECLARACION DE VARIABLES
      * numPreg  ->  numero de pregunta
@@ -28,8 +29,7 @@ struct Examen
 {
     string nombre,profe;
     int total_puntos,correctas,malas,nota,numExam;
-    // poner las referencias hacia las listas de los dos tipos de preguntas
-    struct Secciones*listaSecciones[];
+    struct Secciones* listaSecciones[10];
     struct Examen * sig;
 }*cabezaExamen;
 
@@ -67,18 +67,42 @@ struct Secciones
 
 struct Examen listaExamenes[10];
 // Función que inserta nuevos examenes al final de la lista de examenes
-void insertarExamenes()
+struct Examen*insertarExamenes()
 {
     //se crea un nodo nuevo con la información del examen por crear
     struct Examen* nn;
+    struct Secciones* sect;
+    sect = new struct Secciones;
     nn = new struct Examen;
     string nom,pro;  // nombre del examen, profesor
+    char otra;
+    bool mas = true;
+    int ss = 0;
 
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;
     getline(cin,nom);
     cout << "Digite el nombre del profe" << endl;
     getline(cin,pro);
+
+    while (mas == true){
+            cout << "Desea ingresar una seccion? Y/N" << endl;
+            otra = getche();
+            cout << "\n";
+            if ((otra == 'Y') || (otra == 'y')){
+                sect = insertarSecciones();
+                nn->listaSecciones[ss] = sect;
+                ss++;}
+            else if ((otra == 'N') || (otra == 'n'))
+                break;
+            else
+            {
+                cout<<"\n\nDebe de ingresar una de las opciones indicadas. La exmamen no se guardo, intentalo de nuevo.\n"<<endl;
+                Sleep(2000);
+                insertarExamenes();
+            }
+        }
+
 
     //se llenan los datos
     nn->numExam = cantExams;
@@ -98,16 +122,18 @@ void insertarExamenes()
         nn->sig = cabezaExamen;
         cabezaExamen = nn;
     }
-    cantExams ++ ;
+    cantExams ++;
 }
 
 //Función que imprime los examenes creados en el sistema
 void imprimirListaExamenes()
 {
-    struct Examen* temp = cabezaExamen; // se crea un temporal local para no modificar los datos originales
+    struct Examen* temp = cabezaExamen;// se crea un temporal local para no modificar los datos originales
+    int i = 0;
     while (temp != NULL)
     {
-        cout <<temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
+        cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
+        cout << temp->listaSecciones[i]->nombre << endl;
         temp = temp->sig;
     }
 }
@@ -696,12 +722,12 @@ int main()
     //string pro,string nom, string pre,string res,string tipo,string nomSec,int valor)
     //insertExamenManual("Gretel Rodriguez","Cuantos continentes hay en la actualidad?",);
     //insertarSecciones();
-    //insertarExamenes();
-    //insertarExamenes();
+    insertarExamenes();
+    imprimirListaExamenes();
     //Sleep(300);
     //imprimirSecciones();
 
-    insertarPreguntasX();
+    //insertarPreguntasX();
     //insertarPreguntasCortas();
     /*insertarPreguntasCortas();
     insertarPreguntasCortas();

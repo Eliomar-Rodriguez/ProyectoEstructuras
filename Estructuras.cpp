@@ -515,9 +515,9 @@ void editPregSelecUnic() //editar preguntas de seleccion unica
 }
 void delPregRespCort(){
     struct Examen* tempExam = cabezaExamen;
-    int opExam,opSecc;
+    int opExam,opSecc,delPreg;
     struct RespCort* temp= cabezaRC;
-    int numPreg = 1,y=0,x=0,z=0;
+    int numPreg = 1,y=0,x=0,z=0,h=0;
 
     while(tempExam!=NULL)
     {
@@ -566,6 +566,27 @@ void delPregRespCort(){
                     cout << tempExam->listaSecciones[x]->preguntascortas[z]->numPreg<<") "<<tempExam->listaSecciones[x]->preguntascortas[z]->pregunta<<" ("<<tempExam->listaSecciones[x]->preguntascortas[z]->valor<<" pts)"<<endl;
                 z++;
             }
+            cout<<"Seleccione la pregunta que desea eliminar."<<endl;
+            cin>>delPreg;
+            while((tempExam->listaSecciones[x]->preguntascortas[h] != NULL) && (h < tempExam->listaSecciones[x]->cantPregC) && (delPreg != tempExam->listaSecciones[x]->preguntascortas[h]->numPreg))  // buscando que la resp ingresada sea una de las preguntas
+            {
+                h++;//quite el -1 al final
+            }
+            if ((tempExam->listaSecciones[x]->preguntascortas[h] == NULL) || ((h == tempExam->listaSecciones[x]->cantPregC) && (tempExam->listaSecciones[x]->preguntascortas[h]->numPreg != delPreg)))    // sino encuentra la pregunta indicada
+            {
+                cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
+                delPregRespCort();
+            }
+            ///aqui ya encontro la pregunta y hay que eliminarla
+            //pregRest = h;//0     //tempExam->listaSecciones[x]->cantPregC - (h+1);
+            if ((tempExam->listaSecciones[x]->preguntascortas[h] != NULL) && (h < tempExam->listaSecciones[x]->cantPregC) && (tempExam->listaSecciones[x]->preguntascortas[h]->numPreg == delPreg))
+            {
+                while ((tempExam->listaSecciones[x]->preguntascortas[h+1]!=NULL)&&(h < tempExam->listaSecciones[x]->cantPregC)){
+                    tempExam->listaSecciones[x]->preguntascortas[h]=tempExam->listaSecciones[x]->preguntascortas[h+1];    ///eliminando la pregunta de la lista
+                    h++;
+                }
+                tempExam->listaSecciones[x]->preguntascortas[h]=NULL;
+            }
         }
     }
 
@@ -577,7 +598,7 @@ void delPregMarqX()
     struct Examen* tempExam = cabezaExamen;
     int opExam,opSecc,delPreg;
     struct MarqX* temp= cabezaX;
-    int numPreg = 1,y=0,x=0,z=0,h=0;
+    int numPreg=1,y=0,x=0,z=0,h=0;  //numero de pregunta, variables para las posiciones
 
     while(tempExam!=NULL)
     {
@@ -638,14 +659,14 @@ void delPregMarqX()
                 delPregMarqX();
             }
             ///aqui ya encontro la pregunta y hay que eliminarla
-            int j=0;
-            j=tempExam->listaSecciones[x]->cantPregX-(h+1);
+            //pregRest=tempExam->listaSecciones[x]->cantPregX-(h+1);
             if ((tempExam->listaSecciones[x]->preguntasx[h] != NULL) && (h < tempExam->listaSecciones[x]->cantPregX) && (tempExam->listaSecciones[x]->preguntasx[h]->numPreg == delPreg))
             {
-                while (j<tempExam->listaSecciones[x]->cantPregX){
-                    tempExam->listaSecciones[x]->preguntasx[j]=tempExam->listaSecciones[x]->preguntasx[j+1];
-                    j++;
+                while ((tempExam->listaSecciones[x]->preguntasx[h+1]!=NULL)&&(h < tempExam->listaSecciones[x]->cantPregX)){
+                    tempExam->listaSecciones[x]->preguntasx[h]=tempExam->listaSecciones[x]->preguntasx[h+1];    ///eliminando la pregunta de la lista
+                    h++;
                 }
+                tempExam->listaSecciones[x]->preguntasx[h]=NULL;
             }
 
         }
@@ -856,8 +877,10 @@ int main()
     //imprimirSecciones();
     //imprimirListaExamenes();
     //Sleep(300);
-
-
+    //delPregRespCort();
+    //delPregRespCort();
+    //delPregRespCort();
+    //delPregRespCort();
     delPregMarqX();
     delPregMarqX();
     //insertarPreguntasX();

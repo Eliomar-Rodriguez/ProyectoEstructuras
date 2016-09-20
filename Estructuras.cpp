@@ -775,6 +775,7 @@ int main()
     imprimirListaPreguntasRC();*/
 
     cout << "Mae, todavía no lo supero... un simple careguaba return... Carajo!!" << endl;
+    cout << "Y el Visual Studio me la pela... XD" << endl;
 
     return 0;
 }

@@ -761,7 +761,6 @@ int main()
 
     //insertarSecciones();
     insertarExamenes();
-    //insertarExamenes();
     //imprimirSecciones();
     imprimirListaExamenes();
     //Sleep(300);
@@ -775,7 +774,7 @@ int main()
     insertarPreguntasCortas();
     imprimirListaPreguntasRC();*/
 
-
+    cout << "Mae, todavía no lo supero... un simple careguaba return... Carajo!!" << endl;
 
     return 0;
 }

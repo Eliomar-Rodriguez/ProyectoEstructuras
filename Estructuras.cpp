@@ -11,6 +11,7 @@ int cantExams = 1;
 int cantSec =1;
 int x = 1;
 struct MarqX* insertarPreguntasX();
+struct Secciones*insertarSecciones();
 void menu();
 /* DECLARACION DE VARIABLES
      * numPreg  ->  numero de pregunta
@@ -29,8 +30,7 @@ struct Examen
 {
     string nombre,profe;
     int total_puntos,correctas,malas,nota,numExam;
-    // poner las referencias hacia las listas de los dos tipos de preguntas
-    struct Secciones*listaSecciones[10];
+    struct Secciones* listaSecciones[10];
     struct Examen * sig;
 }*cabezaExamen;
 
@@ -66,16 +66,19 @@ struct Secciones
     struct Secciones* sig;
 }*cabezaSec;
 
-
-//struct Examen listaExamenes[15];
 // Función que inserta nuevos examenes al final de la lista de examenes
-void insertarExamenes()
+struct Examen*insertarExamenes()
 {
     //se crea un nodo nuevo con la información del examen por crear
     struct Examen* nn;
+    struct Secciones* sect;
+    sect = new struct Secciones;
     nn = new struct Examen;
     string nom,pro,nomb;  // nombre del examen, profesor
-
+  // nombre del examen, profesor
+    char otra;
+    bool mas = true;
+    int ss = 0;
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen" << endl;
     getline(cin,nom);
@@ -84,6 +87,25 @@ void insertarExamenes()
     cout << "Digite el nombre de la seccion" << endl;
     getline(cin,nomb);
     //nn->listaSecciones[cantExams-1]->nombre="Primera seccion";
+    /*
+    while (mas == true){
+            cout << "Desea ingresar una seccion? Y/N" << endl;
+            otra = getche();
+            cout << "\n";
+            if ((otra == 'Y') || (otra == 'y')){
+                sect = insertarSecciones();
+                nn->listaSecciones[ss] = sect;
+                ss++;}
+            else if ((otra == 'N') || (otra == 'n'))
+                break;
+            else
+            {
+                cout<<"\n\nDebe de ingresar una de las opciones indicadas. La exmamen no se guardo, intentalo de nuevo.\n"<<endl;
+                Sleep(2000);
+                insertarExamenes();
+            }
+        }*/
+
 
     //se llenan los datos
     nn->numExam = cantExams;
@@ -108,12 +130,15 @@ void insertarExamenes()
 }
 
 //Función que imprime los examenes creados en el sistema
-void imprimirListaExamenes()
+void imprimirListaExamenes()    /// lo mas seguro es que se elimine
 {
-    struct Examen* temp = cabezaExamen; // se crea un temporal local para no modificar los datos originales
+    struct Examen* temp = cabezaExamen;// se crea un temporal local para no modificar los datos originales
+    int i = 0;
     while (temp != NULL)
     {
-        cout <<temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
+        cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
+        //cout << temp->listaSecciones[i]->nombre << endl;
+        i++;
         temp = temp->sig;
     }
 }
@@ -192,7 +217,6 @@ struct Secciones*insertarSecciones()
     cort = new struct RespCort;
     equis = new struct MarqX;
     bool mas = true;
-
     char otra,tipo;
 
     string nom;  // nombre del examen
@@ -210,8 +234,8 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                //equis = insertarPreguntasX();
-                //nn->preguntasx[ex] = equis;
+                equis = insertarPreguntasX();
+                nn->preguntasx[ex] = equis;
                 ex++;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -219,7 +243,7 @@ struct Secciones*insertarSecciones()
             {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
                 Sleep(2000);
-                //insertarSecciones();
+                insertarSecciones();
             }
         }
     }
@@ -229,8 +253,8 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                //cort = insertarPreguntasCortas();
-                //nn->preguntascortas[rc] = cort;
+                cort = insertarPreguntasCortas();
+                nn->preguntascortas[rc] = cort;
                 rc++;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -238,7 +262,7 @@ struct Secciones*insertarSecciones()
                 {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
                 Sleep(2000);
-                //insertarSecciones();
+                insertarSecciones();
                 }
             }
     }
@@ -246,7 +270,7 @@ struct Secciones*insertarSecciones()
         {
         cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
         Sleep(2000);
-        //insertarSecciones();
+        insertarSecciones();
         }
     //se llenan los datos
     nn->nombre = nom;
@@ -260,14 +284,15 @@ struct Secciones*insertarSecciones()
         nn->sig = cabezaSec;
         cabezaSec = nn;
     }
-    tempExam->listaSecciones[cantSec]=nn;
+    tempExam->listaSecciones[cantSec-1]->nombre;
+    /*tempExam->listaSecciones[cantSec]=nn;
     //tempExam->listaSecciones[cantSec]->nombre = nom;
-    tempExam=tempExam->sig;
+    tempExam=tempExam->sig;*/
     cantSec++;
 }
 
 //Función que imprime las preguntas de respuesta corta creadas en el sistema y su respectiva respuesta correcta.
-void imprimirSecciones()
+void imprimirSecciones()    /// lo mas seguro es que se elimine
 {
     struct Secciones* temp = cabezaSec;
     //int i = 0;
@@ -732,12 +757,13 @@ int main()
     //string pro,string nom, string pre,string res,string tipo,string nomSec,int valor)
     //insertExamenManual("Gretel Rodriguez","Cuantos continentes hay en la actualidad?",);
 
-    insertarExamenes();
-    insertarSecciones();
-    //insertarExamenes();
     //insertarSecciones();
+    insertarExamenes();
+    insertarExamenes();
+    imprimirListaExamenes();
     //Sleep(300);
     //imprimirSecciones();
+
     delPregMarqX();
     //insertarPreguntasX();
     //insertarPreguntasCortas();

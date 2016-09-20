@@ -27,7 +27,7 @@ struct Examen
 {
     string nombre,profe;
     int total_puntos,correctas,malas,nota,numExam,totSec;
-    struct Secciones* listaSecciones[10];
+    struct Secciones* listaSecciones;
     struct Examen * sig;
 }*cabezaExamen;
 
@@ -58,8 +58,8 @@ struct Secciones
 {
     string nombre = "";
     int numSec =0,cantPregX=0,cantPregC=0;  ///cantPregX y cantPregC se utilizan como un tipo de lenght de cada lista de preguntas
-    struct RespCort* preguntascortas[20];
-    struct MarqX* preguntasx[20];
+    struct RespCort* preguntascortas;
+    struct MarqX* preguntasx;
     struct Secciones* sig;
 }*cabezaSec;
 
@@ -91,9 +91,9 @@ struct Examen*insertarExamenes()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->totSec++;
                 sect = insertarSecciones();
-                nn->listaSecciones[ss] = sect;
+                nn->listaSecciones->sig = sect;
                 cout << sect->nombre << endl;
-                ss++;}
+                }
             else if ((otra == 'N') || (otra == 'n'))
                 break;
             else
@@ -133,9 +133,9 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
     while (temp != NULL)
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
-        while(temp->listaSecciones[i]!=NULL){
-            cout << temp->listaSecciones[i]->nombre << endl;
-            i++;}
+        while(temp->listaSecciones->sig!=NULL){
+            cout << temp->listaSecciones->nombre << endl;
+            }
         temp = temp->sig;
     }
 }
@@ -232,8 +232,7 @@ struct Secciones*insertarSecciones()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->cantPregX++;
                 equis = insertarPreguntasX(pregX);
-                nn->preguntasx[ex] = equis;
-                ex++;
+                nn->preguntasx->sig = equis;
                 pregX++;
                 }
             else if ((otra == 'N') || (otra == 'n'))
@@ -254,8 +253,7 @@ struct Secciones*insertarSecciones()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->cantPregC++;
                 cort = insertarPreguntasCortas(pregC);
-                nn->preguntascortas[rc] = cort;
-                rc++;
+                nn->preguntascortas->sig = cort;
                 pregC++;
                 }
             else if ((otra == 'N') || (otra == 'n'))
@@ -540,8 +538,8 @@ void editPregRespCort() //falta editar
     else if ((tempExam!=NULL)&&(tempExam->numExam == opExam))  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
     {
             while(y < tempExam->totSec){
-                if ((tempExam->listaSecciones[y]!=NULL)&&(tempExam->listaSecciones[y]->numSec != 0)){
-                    cout<< tempExam->listaSecciones[y]->numSec<< ") "<< tempExam->listaSecciones[y]->nombre <<endl;
+                if ((tempExam->listaSecciones->sig!=NULL)&&(tempExam->listaSecciones->sig->numSec != 0)){
+                    cout<< tempExam->listaSecciones->numSec<< ") "<< tempExam->listaSecciones->sig->nombre <<endl;
                 }
                 y++;
             }

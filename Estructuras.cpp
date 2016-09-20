@@ -30,7 +30,7 @@ struct Examen
 {
     string nombre,profe;
     int total_puntos,correctas,malas,nota,numExam;
-    struct Secciones* listaSecciones[10];
+    struct Secciones* listaSecciones;
     struct Examen * sig;
 }*cabezaExamen;
 
@@ -38,7 +38,7 @@ struct Examen
 struct MarqX
 {
     string numPreg,tipo,nomSec,estado,pregunta,resp,respEst;
-    string opciones[5];
+    string opciones[7];
     int valor;
     struct MarqX* sig;
     struct MarqX* ant;
@@ -61,8 +61,8 @@ struct Secciones
 {
     string nombre = "";
     int numSec =0;
-    struct RespCort* preguntascortas[10];
-    struct MarqX* preguntasx[10];
+    struct RespCort* preguntascortas;
+    struct MarqX* preguntasx;
     struct Secciones* sig;
 }*cabezaSec;
 
@@ -84,8 +84,8 @@ struct Examen*insertarExamenes()
     getline(cin,nom);
     cout << "Digite el nombre del profe" << endl;
     getline(cin,pro);
-    cout << "Digite el nombre de la seccion" << endl;
-    getline(cin,nomb);
+    /*cout << "Digite el nombre de la seccion" << endl;
+    getline(cin,nomb);*/
     //nn->listaSecciones[cantExams-1]->nombre="Primera seccion";
 
     while (mas == true){
@@ -94,9 +94,8 @@ struct Examen*insertarExamenes()
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
                 sect = insertarSecciones();
-                nn->listaSecciones[ss] = sect;
-                cout << sect->nombre << endl;
-                ss++;}
+                nn->listaSecciones->sig = sect;
+                cout << sect->nombre << endl;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
             else
@@ -138,8 +137,7 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
     while (temp != NULL)
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
-        cout << temp->listaSecciones[i]->nombre << endl;
-        i++;
+        cout << temp->listaSecciones->nombre << endl;
         temp = temp->sig;
     }
 }
@@ -236,8 +234,7 @@ struct Secciones*insertarSecciones()
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
                 equis = insertarPreguntasX();
-                nn->preguntasx[ex] = equis;
-                ex++;}
+                nn->preguntasx->sig = equis;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
             else
@@ -255,8 +252,7 @@ struct Secciones*insertarSecciones()
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
                 cort = insertarPreguntasCortas();
-                nn->preguntascortas[rc] = cort;
-                rc++;}
+                nn->preguntascortas->sig = cort;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
             else
@@ -285,7 +281,7 @@ struct Secciones*insertarSecciones()
         nn->sig = cabezaSec;
         cabezaSec = nn;
     }
-    tempExam->listaSecciones[cantSec-1]->nombre;
+//    tempExam->listaSecciones[cantSec-1]->nombre;
     /*tempExam->listaSecciones[cantSec]=nn;
     //tempExam->listaSecciones[cantSec]->nombre = nom;
     tempExam=tempExam->sig;*/
@@ -766,7 +762,7 @@ int main()
     //Sleep(300);
 
 
-    delPregMarqX();
+    //delPregMarqX();
     //insertarPreguntasX();
     //insertarPreguntasCortas();
     /*insertarPreguntasCortas();

@@ -8,6 +8,7 @@
 
 int preg = 1;
 int cantExams = 1;
+int cantSec =1;
 int x = 1;
 struct MarqX* insertarPreguntasX();
 struct Secciones*insertarSecciones();
@@ -59,13 +60,14 @@ struct RespCort
 struct Secciones
 {
     string nombre = "";
+    int numSec =0;
     struct RespCort* preguntascortas[10];
     struct MarqX* preguntasx[10];
     struct Secciones* sig;
 }*cabezaSec;
 
 
-struct Examen listaExamenes[10];
+//struct Examen listaExamenes[15];
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
 {
@@ -207,6 +209,7 @@ struct Secciones*insertarSecciones()
     struct Secciones* nn;
     struct RespCort* cort;
     struct MarqX* equis;
+    struct Examen *tempExam = cabezaExamen;
     nn = new struct Secciones;
     cort = new struct RespCort;
     equis = new struct MarqX;
@@ -216,7 +219,7 @@ struct Secciones*insertarSecciones()
 
     string nom;  // nombre del examen
     int ex = 0,rc = 0;
-
+    nn->numSec = cantSec;
     //se piden los datos al usuario
     cout << "Digite el nombre de la Seccion" << endl;
     getline(cin,nom);
@@ -229,8 +232,8 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                equis = insertarPreguntasX();
-                nn->preguntasx[ex] = equis;
+                //equis = insertarPreguntasX();
+                //nn->preguntasx[ex] = equis;
                 ex++;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -238,7 +241,7 @@ struct Secciones*insertarSecciones()
             {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
                 Sleep(2000);
-                insertarSecciones();
+                //insertarSecciones();
             }
         }
     }
@@ -248,8 +251,8 @@ struct Secciones*insertarSecciones()
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
-                cort = insertarPreguntasCortas();
-                nn->preguntascortas[rc] = cort;
+                //cort = insertarPreguntasCortas();
+                //nn->preguntascortas[rc] = cort;
                 rc++;}
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -257,7 +260,7 @@ struct Secciones*insertarSecciones()
                 {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
                 Sleep(2000);
-                insertarSecciones();
+                //insertarSecciones();
                 }
             }
     }
@@ -265,7 +268,7 @@ struct Secciones*insertarSecciones()
         {
         cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
         Sleep(2000);
-        insertarSecciones();
+        //insertarSecciones();
         }
     //se llenan los datos
     nn->nombre = nom;
@@ -279,6 +282,10 @@ struct Secciones*insertarSecciones()
         nn->sig = cabezaSec;
         cabezaSec = nn;
     }
+    tempExam->listaSecciones[cantSec]=nn;
+    //tempExam->listaSecciones[cantSec]->nombre = nom;
+    tempExam=tempExam->sig;
+    cantSec++;
 }
 
 //Función que imprime las preguntas de respuesta corta creadas en el sistema y su respectiva respuesta correcta.
@@ -387,7 +394,7 @@ struct MarqX* insertarPreguntasX()
         else
         {
             cout<<"\n\nDebe de ingresar una de las opciones indicadas. La pregunta ingresada no se guardo, intentalo de nuevo./n"<<endl;
-            Sleep(2000);
+            Sleep(1000);
             insertarPreguntasX();
         }
     }
@@ -505,25 +512,50 @@ void editPregSelecUnic() //editar preguntas de seleccion unica
 }
 void delPregMarqX()
 {
+    system("cls");
+    struct Examen* tempExam = cabezaExamen;
+    int opExam;
     struct MarqX* temp= cabezaX;
     int numPreg = 1;
-    int cont=1;
-    if (temp == NULL)
-        cout<<"No hay preguntas creadas."<<endl;
-    else
+    while(tempExam->sig!=NULL)
     {
-        while (temp!= NULL)
+        if (tempExam->numExam != 0)//validacion para que no imprima puros 0)
+            cout<< tempExam->numExam << ") "<< tempExam->nombre <<endl;
+        tempExam=tempExam->sig;
+    }
+    cout<<"Seleccione el examen en cual desea eliminar preguntas."<<endl;
+    cin>>opExam;
+
+    while((tempExam->sig!=NULL) && (tempExam->numExam!= opExam))
+    {
+        if (tempExam->sig==NULL)
         {
-            cout<<numPreg<<") "<<temp->pregunta<<endl;
-            for (int x=0; x<5;x++)
-            {
-                cout<<"     "<<cont<<") "<<cabezaX->opciones[x]<<endl;
-                cont++;
-            }
-            temp=temp->sig;
-            numPreg++;
+            break;
+        }
+
+    }
+    if (tempExam!=NULL)
+    {
+        cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
+        delPregMarqX();
+    }
+    else if (tempExam->numExam == opExam)
+    {
+        for (int y=0; y<15; y++)
+        {
+            if (tempExam->listaSecciones[y]->numSec != 0)
+                cout<< tempExam->listaSecciones[y]->numSec<< ") "<< tempExam->listaSecciones[y]->nombre <<endl;
+        }
+        cout<<"Seleccione la seccion en la cual desea eliminar preguntas."<<endl;
+        cin>>opExam;
+        for(int z=0;z<15;z++)
+        {
+            //cout<<listaExamenes[cont].listaSecciones[z].numSec<<") "<<listaExamenes[cont].listaSecciones[z].nombre<<endl;
         }
     }
+
+    return;
+
 }
 void menu()
 {
@@ -658,7 +690,6 @@ void menu()
     return;
 }
 
-
 void insertExamenManual(string pro,string nom, string pre,string res,string tipo,string nomSec,int valor)
 {
     //esta pendiente.
@@ -717,16 +748,19 @@ void insertExamenManual(string pro,string nom, string pre,string res,string tipo
             nnX->sig->ant = nnX;
     }
 }
+
 int main()
 {
     //string pro,string nom, string pre,string res,string tipo,string nomSec,int valor)
     //insertExamenManual("Gretel Rodriguez","Cuantos continentes hay en la actualidad?",);
+
     //insertarSecciones();
     insertarExamenes();
     imprimirListaExamenes();
     //Sleep(300);
     //imprimirSecciones();
 
+    delPregMarqX();
     //insertarPreguntasX();
     //insertarPreguntasCortas();
     /*insertarPreguntasCortas();

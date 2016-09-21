@@ -810,7 +810,6 @@ void delPregMarqX()
                 }
                 tempExam->listaSecciones[x]->preguntasx[h]=NULL;
             }
-
         }
     }
 

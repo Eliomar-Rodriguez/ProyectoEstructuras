@@ -92,8 +92,12 @@ struct Examen*insertarExamenes()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->totSec++;
                 sect = insertarSecciones();
-                nn->listaSecciones->sig = sect;
-                cout << sect->nombre << endl;
+                if (nn->listaSecciones == NULL)
+                    nn->listaSecciones = sect;
+                else{
+                    nn->listaSecciones->sig = nn->listaSecciones;
+                    nn->listaSecciones = sect;
+                    }
                 }
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -134,8 +138,10 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
     while (temp != NULL)
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
-        while(temp->listaSecciones->sig!=NULL){
+        while(temp->listaSecciones!=NULL){
             cout << temp->listaSecciones->nombre << endl;
+            temp->listaSecciones = temp->listaSecciones->sig;
+            //cout << temp->listaSecciones->preguntascortas->pregunta << endl;
             }
         temp = temp->sig;
     }
@@ -181,11 +187,11 @@ struct RespCort* insertarPreguntasCortas(int numP)
 
     //se enlaza el nuevo nodo al final de la lista
      if (!cabezaRC || cabezaRC->valor > nn->valor){
-     nn->sig = cabezaRC;
-     nn->ant = NULL;//era 0
-     if (cabezaRC)
-        cabezaRC->ant = nn;
-        cabezaRC = nn;
+         nn->sig = cabezaRC;
+         nn->ant = NULL;//era 0
+         if (cabezaRC)
+            cabezaRC->ant = nn;
+            cabezaRC = nn;
         }
      else {
      RespCort *temp = cabezaRC;
@@ -199,6 +205,7 @@ struct RespCort* insertarPreguntasCortas(int numP)
      if (nn->sig)
         nn->sig->ant = nn;
   };
+    return nn;
 }
 //Funcion que crea secciones en un examen
 
@@ -233,8 +240,15 @@ struct Secciones*insertarSecciones()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->cantPregX++;
                 equis = insertarPreguntasX(pregX);
-                nn->preguntasx->sig = equis;
-                pregX++;
+                if (nn->preguntasx == NULL){
+                    nn->preguntasx = equis;
+                    pregX++;}
+                else{
+                    nn->preguntasx->sig = nn->preguntasx;
+                    nn->preguntasx = equis;
+                    pregX++;
+                    }
+
                 }
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -254,8 +268,14 @@ struct Secciones*insertarSecciones()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->cantPregC++;
                 cort = insertarPreguntasCortas(pregC);
-                nn->preguntascortas->sig = cort;
-                pregC++;
+                if (nn->preguntascortas == NULL){
+                    nn->preguntascortas = cort;
+                    pregC++;}
+                else{
+                    nn->preguntascortas->sig = nn->preguntascortas;
+                    nn->preguntascortas = cort;
+                    pregC++;
+                    }
                 }
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -454,6 +474,7 @@ struct MarqX* insertarPreguntasX(int numP)
         Sleep(2000);
         insertarPreguntasX();
     }*/
+    return nn;
 }
 
 ///Función que imprime las preguntas de marcar con x creadas en el sistema y su respectiva respuesta correcta.
@@ -510,7 +531,7 @@ void editPregSelecUnic()//falta editar
 }
 
 /// editar preguntas de respuesta corta
-void editPregRespCort() //falta editar
+/*void editPregRespCort() //falta editar
 {
     struct Examen* tempExam = cabezaExamen;
     int opExam,opSecc,delPreg;
@@ -816,7 +837,7 @@ void delPregMarqX()
 
     return;
 
-}
+}*/
 
 /// menu principal
 void menu()
@@ -852,17 +873,17 @@ void menu()
                     {
                         case '1':
                             {
-                                editSecciones();
+                                //editSecciones();
                                 break;
                             }
                         case '2':
                             {
-                                editPregSelecUnic();
+                                //editPregSelecUnic();
                                 break;
                             }
                         case '3':
                             {
-                                editPregRespCort();
+                                //editPregRespCort();
                                 break;
                             }
                         case '4':
@@ -896,12 +917,12 @@ void menu()
                             }
                         case '2':
                             {
-                                delPregMarqX();
+                                //delPregMarqX();
                                 break;
                             }
                         case '3':
                             {
-                                delPregRespCort();
+                                //delPregRespCort();
                                 break;
                             }
                         case '4':
@@ -1010,7 +1031,7 @@ int main()
     //insertarSecciones();
     insertarExamenes();
     //imprimirSecciones();
-    //imprimirListaExamenes();
+    imprimirListaExamenes();
     //Sleep(300);
     //delPregRespCort();
     //delPregRespCort();

@@ -12,7 +12,7 @@ struct Secciones*insertarSecciones();
 void menu();
 /* DECLARACION DE VARIABLES
      * numPreg  ->  numero de pregunta
-     * pregunta ->  la pregunta en si
+     * pregunta ->  la pregunta que se ingresa
      * resp     ->  respuesta correcta de la pregunta
      * respEst  ->  respuesta ingresada por el estudiante
      * nomSec   ->  nombre de la seccion ( geografia, historia, geometria, numeros reales )

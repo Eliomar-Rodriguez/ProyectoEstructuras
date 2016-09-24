@@ -99,7 +99,6 @@ struct Examen*insertarExamenes()
                     sect->sig = NULL;
                     cabezaSec = sect;
                     }
-                    nn->listaSecciones = nn->listaSecciones->sig;
                 }
             else if ((otra == 'N') || (otra == 'n'))
                 break;
@@ -222,9 +221,9 @@ struct Secciones*insertarSecciones()
             if ((otra == 'Y') || (otra == 'y')){
                 nn->cantPregX++;
                 equis = insertarPreguntasX(pregX);
-
-                if (nn->preguntasX == NULL)
+                if (nn->preguntasX == NULL){
                     nn->preguntasX = equis;
+                    cabezaX = equis;}
                 else{
                     cabezaX->sig = equis; // ->listaSecciones;
                     equis->sig = NULL;
@@ -232,7 +231,7 @@ struct Secciones*insertarSecciones()
                     cabezaX = equis;
                 }
 
-                nn->preguntasX=nn->preguntasX->sig;
+                nn->preguntasX = nn->preguntasX->sig;
                 pregX++;
             }
             else if ((otra == 'N') || (otra == 'n'))
@@ -254,8 +253,9 @@ struct Secciones*insertarSecciones()
                 nn->cantPregC++;
                 cort = insertarpreguntasCortas(pregC);
 
-                if (nn->preguntasCortas == NULL)
+                if (nn->preguntasCortas == NULL){
                     nn->preguntasCortas = cort;
+                    cabezaRC = cort;}
                 else{
                     cabezaRC->sig = cort; // ->listaSecciones;
                     cort->sig = NULL;
@@ -294,10 +294,8 @@ struct Secciones*insertarSecciones()
         }
      else {
      RespCort *temp = cabezaRC;
-
      while (temp->sig && temp->sig->valor <= nn->valor)
         temp = temp->sig;
-
      nn->sig= temp->sig;
      nn->ant = temp;
      temp->sig = nn;
@@ -412,8 +410,7 @@ struct MarqX* insertarPreguntasX(int numP)
         {
             cout<<"\n\nDebe de ingresar una de las opciones indicadas. La pregunta ingresada no se guardo, intentalo de nuevo./n"<<endl;
             Sleep(1000);
-            insertarPreguntasX(numP);
-            return NULL;
+            return insertarPreguntasX(numP);
         }
     }
     cout << "\nEscriba la opcion correcta de la pregunta." << endl;
@@ -586,7 +583,6 @@ void editSecciones()
     int opExam,opSecc,delPreg;
     struct RespCort* temp= cabezaRC;
     int numPreg = 1,y=0,x=0,z=0,h=0;
-
     while(tempExam!=NULL)
     {
         if (tempExam->numExam != 0)//validacion para que no imprima puros 0)
@@ -596,7 +592,6 @@ void editSecciones()
     cout<<"Seleccione el examen en cual desea eliminar preguntas."<<endl;
     cin>>opExam;
     tempExam = cabezaExamen;
-
     while((tempExam!=NULL) && (tempExam->numExam!= opExam))
     {
         tempExam=tempExam->sig;
@@ -632,7 +627,6 @@ void editSecciones()
             tempExam->listaSecciones->nombre = name;
         }
     }
-
     return;
 }
 */
@@ -770,11 +764,6 @@ void delPregMarqX()
 
     while(auxiliar!=NULL)
     {
-    /*if (tempExam->numExam != opExam)
-    {
-        cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
-        delPregMarqX();
-    }*/
     if (auxiliar->numExam == opExam)  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
     {
         if (auxiliar->listaSecciones == NULL)

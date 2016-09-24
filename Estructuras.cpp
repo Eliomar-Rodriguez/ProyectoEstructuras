@@ -59,7 +59,7 @@ struct Secciones
     string nombre = "";
     int numSec =0,cantPregX=0,cantPregC=0;  ///cantPregX y cantPregC se utilizan como un tipo de lenght de cada lista de preguntas
     struct RespCort* preguntasCortas = NULL;
-    struct MarqX* preguntasX;
+    struct MarqX* preguntasX = NULL;
     struct Secciones* sig;
 }*cabezaSec;
 
@@ -141,8 +141,8 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         while(temp->listaSecciones != NULL){//SE CAE PORQUE SE DESBORDA LA LISTA DE PREGUNTASCORTAS...
             cout << temp->listaSecciones->numSec <<") "<< temp->listaSecciones->nombre << endl;
-            cout << temp->listaSecciones->preguntasCortas->numPreg <<") "<< temp->listaSecciones->preguntasCortas->pregunta << endl;
-            temp->listaSecciones->preguntasCortas = temp->listaSecciones->preguntasCortas->sig;
+            cout << temp->listaSecciones->preguntasX->numPreg <<") "<< temp->listaSecciones->preguntasX->pregunta << endl;
+            temp->listaSecciones->preguntasX = temp->listaSecciones->preguntasX->sig;
             }
         temp = temp->sig;
     }
@@ -225,9 +225,12 @@ struct Secciones*insertarSecciones()
 
                 if (nn->preguntasX== NULL)
                     nn->preguntasX = equis;
-
-                else
-                    nn->preguntasX->sig = equis;
+                else{
+                    cabezaX->sig = equis; // ->listaSecciones;
+                    equis->sig = NULL;
+                    equis->ant = cabezaX;
+                    cabezaX = equis;
+                }
 
                 nn->preguntasX=nn->preguntasX->sig;
                 pregX++;
@@ -243,7 +246,6 @@ struct Secciones*insertarSecciones()
         }
     }
     else if (tipo == '2'){
-        //nn->preguntasCortas = NULL;
         while (mas == true){
             cout << "Desea ingresar una pregunta? Y/N" << endl;
             otra = getche();
@@ -728,7 +730,126 @@ void delPregRespCort(){
 }
 
 
+
 /// eliminar preguntas de marque con x
+
+
+bool buscarSec(int n){
+    struct Examen *tempExam = cabezaExamen;
+    while ((tempExam->listaSecciones != NULL)&&(tempExam->listaSecciones->numSec != NULL))
+    {
+        tempExam->listaSecciones = tempExam->listaSecciones->sig;
+    }
+    if ((tempExam->listaSecciones!=NULL)&&(tempExam->listaSecciones->numSec == n))
+        return true;
+    else if ((tempExam->listaSecciones == NULL)&&(tempExam->listaSecciones->numSec != n))
+        return false;
+}
+
+/// eliminar preguntas de marque con x
+void delPregMarqX()
+{
+    struct Examen* tempExam = cabezaExamen;
+    struct Examen *auxiliar = cabezaExamen;
+    struct MarqX *anterior;
+    struct MarqX * pregDel;
+    int opExam,delPreg,opSec;  // almacenara la pregunta a eliminar
+    int numPreg=1,y=0,x=0,z=0,h=0;  //numero de pregunta, variables para las posiciones
+
+    while(tempExam!=NULL)
+    {
+        if (tempExam->numExam != 0)//validacion para que no imprima puros 0)
+            cout<< tempExam->numExam << ") "<< tempExam->nombre <<endl;
+        tempExam=tempExam->sig;
+    }
+    cout<<"Seleccione el examen en cual desea eliminar preguntas."<<endl;
+    cin>>opExam;
+
+    while(auxiliar!=NULL)
+    {
+        if (auxiliar->numExam == opExam)  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
+        {
+            if (auxiliar->listaSecciones == NULL)
+            {
+                cout<<"Este examen esta vacio por lo que no posee secciones."<<endl;
+                menu();
+            }
+            while(y < auxiliar->totSec){
+                if ((auxiliar->listaSecciones!=NULL)&&(auxiliar->listaSecciones->numSec != 0)){
+                    cout<< auxiliar->listaSecciones->numSec<< ") "<< auxiliar->listaSecciones->nombre <<endl;
+                }
+                auxiliar->listaSecciones= auxiliar->listaSecciones->sig;
+                y++;
+            }
+            cout<<"Seleccione la seccion en la cual desea eliminar preguntas."<<endl;
+            cin>>opSec;
+            while((tempExam->listaSecciones!=NULL) && (tempExam->listaSecciones->numSec!= opSec))
+            {
+                    tempExam->listaSecciones = tempExam->listaSecciones->sig;
+            }
+            cout<<"wwwwwwwwwwwwwwwwwwwwwwwwww2";
+            if ((tempExam->listaSecciones==NULL)||(tempExam->listaSecciones->numSec!= opSec))
+            {
+                cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
+                delPregMarqX();
+            }
+            cout<<"qqqqq";
+            if (tempExam->listaSecciones->numSec == opSec)  // aqui ya encontro la seccion en la cual quiero eliminar preguntas
+            {
+                cout<<"wwwwwwwwwwwwwwwwwwwwwwwwww3";
+                /*if (tempExam->listaSecciones->preguntasX==NULL)
+                {
+                    cout<<"Esta seccion esta vacia por lo que no posee preguntas."<<endl;
+                    menu();
+                }
+
+                while(z < tempExam->listaSecciones->cantPregX){
+
+                if ((tempExam->listaSecciones->preguntasX!=NULL)&&(tempExam->listaSecciones->preguntasX->numPreg != 0)){
+
+                    cout<< tempExam->listaSecciones->preguntasX->numPreg<< ") "<< tempExam->listaSecciones->preguntasX->pregunta <<" ("<<tempExam->listaSecciones->preguntasX->valor<<" pts)"<<endl;
+                }
+                tempExam->listaSecciones->preguntasX = tempExam->listaSecciones->preguntasX->sig;
+                z++;*/
+            }
+
+
+
+            /*
+                /// se imprimiran todas las preguntas de marque con x aqui
+
+                cout<<"Seleccione la pregunta que desea eliminar."<<endl;
+                cin>>delPreg;
+
+
+
+                while((tempExam->listaSecciones->preguntasX != NULL) && (h < tempExam->listaSecciones->cantPregX) && (delPreg != tempExam->listaSecciones->preguntasX->numPreg))  // buscando que la resp ingresada sea una de las preguntas
+                {
+                    anterior = tempExam->listaSecciones->preguntasX;
+                    tempExam->listaSecciones->preguntasX = tempExam->listaSecciones->preguntasX->sig;
+                    h++;//quite el -1 al final
+                }
+
+                if ((tempExam->listaSecciones->preguntasX == NULL) || ((h == tempExam->listaSecciones->cantPregX) && (tempExam->listaSecciones->preguntasX->numPreg != delPreg)))    // sino encuentra la pregunta indicada
+                {//si la pregunta es null es porque no hay pregunta O esta en la ultima pregunta y es diferente a la pregunta real no la encontro
+                    cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
+                    delPregMarqX();
+                }
+                ///aqui ya encontro la pregunta y hay que eliminarla
+                else if ((tempExam->listaSecciones->preguntasX != NULL) && (h < tempExam->listaSecciones->cantPregX) && (tempExam->listaSecciones->preguntasX->numPreg == delPreg))
+                {
+                    pregDel = tempExam->listaSecciones->preguntasX; // guardo la pregunta que tengo que eliminar
+                    anterior->sig = tempExam->listaSecciones->preguntasX->sig; /*  *anterior guarda la preg que esta antes de la elegida para eliminar y ahora la pregunta
+                                                                                        siguiente de anterior va a seguir la que esta despues de la preg a eliminar por ende queda
+                                                                                        fuera del lista enlazada de preguntas
+                    free(pregDel);  // libero la memoria utilizada por la pregunta que se elimino
+                }*/
+            //}
+        }
+        tempExam = tempExam->sig;
+    }
+    return;
+}
 
 
 /// menu principal
@@ -927,7 +1048,16 @@ int main()
     //insertarExamenes();
     //cout<<"SECCIONES"<<endl;
     //imprimirSecciones();
+
     //delPregMarqX();
+
+    //imprimirListaExamenes();
+    //delPregRespCort();
+    //delPregRespCort();
+    //delPregRespCort();
+    //delPregRespCort();
+    delPregMarqX();
+
     //delPregMarqX();
     delPregRespCort();
     //insertarpreguntasX();

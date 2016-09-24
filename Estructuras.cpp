@@ -5,6 +5,7 @@
 #include <sstream>
 #include<conio.h>
 #include<windows.h>
+cout << "Hola":
 
 int cantExams = 1,cantSec =0,x = 1;
 struct MarqX* insertarPreguntasX(int numP);

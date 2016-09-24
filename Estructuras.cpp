@@ -653,6 +653,8 @@ void delPregRespCort(){
     cout<<"Seleccione el examen en cual desea eliminar preguntas."<<endl;
     cin>>opExam;
 
+    tempExam=cabezaExamen;
+
     while((tempExam!=NULL) && (tempExam->numExam!= opExam))
     {
         tempExam=tempExam->sig;
@@ -1056,10 +1058,10 @@ int main()
     //delPregRespCort();
     //delPregRespCort();
     //delPregRespCort();
-    delPregMarqX();
-
     //delPregMarqX();
-    delPregRespCort();
+
+    delPregMarqX();
+    //delPregRespCort();
     //insertarpreguntasX();
     //insertarpreguntasCortas();
     /*insertarpreguntasCortas();

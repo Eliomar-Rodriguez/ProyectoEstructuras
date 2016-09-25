@@ -611,7 +611,6 @@ void editPregSelecUnic()//falta editar
                         cout<<"Ingrese la nueva respuesta"<<endl;
                         getline(cin,inicioMX->resp);
                         getline(cin,inicioMX->resp);
-                        //inicioMX->resp=opcPreg;
                         cout<<inicioMX->resp;
                         break;
                     default:

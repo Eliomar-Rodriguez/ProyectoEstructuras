@@ -35,8 +35,8 @@ struct MarqX
 {
 
     string nomSec,estado,pregunta,resp,respEst;
-    string opciones[7];
-    int valor,numPreg=0;
+    string MarqX *opciones;
+    int valor,cantOp=0,numPreg=0;
     struct MarqX* sig;
     struct MarqX* ant;
 
@@ -393,6 +393,7 @@ struct MarqX* insertarPreguntasX(int numP)
     cout<<"\t";
     getline(cin,pre);
     for (int x = 0; mas != false; x++){
+        nn->cantOp++;
         cout << "\nEscriba una OPCION de respuesta para la pregunta (una debe ser la correcta)." << endl;
         cout<<"\t";
         getline(cin,res);
@@ -485,7 +486,146 @@ void responderX(MarqX*cabezaX)
 /// editar preguntas de marque con x
 void editPregSelecUnic()//falta editar
 {
-    struct MarqX* temp = cabezaX;
+    struct Examen *examAct = cabezaExamen;
+    struct Secciones *inicio,*inicio2 = NULL;
+    struct MarqX *inicioMX = NULL;
+
+    string preg = "",opcPreg="";
+
+    int opExam,opSec,opPreg,x=0,opResp,op;
+
+    while (examAct!=NULL)
+    {
+        cout<<examAct->numExam<<") "<<examAct->nombre<<endl;
+        examAct=examAct->sig;
+    }
+
+    examAct=NULL;
+    examAct = cabezaExamen;
+
+    cout<<"Seleccione el examen en el cual desea editar preguntas."<<endl;
+    cin>>opExam;
+    if (examAct==NULL) /// el examen no tiene secciones
+    {
+        cout<<"El examen seleccionado no cuenta con secciones"<<endl;
+        menu();
+    }
+    while ((examAct!=NULL)&&(examAct->numExam!=opExam)) /// busca examen elegido
+    {
+        examAct=examAct->sig;
+    }
+
+    if ((examAct!=NULL)&&(examAct->numExam==opExam)) /// encontro el examen
+    {
+        inicio = examAct->listaSecciones; // guardo posicion inicial de listasecciones
+
+        while(inicio!=NULL) // imprimo
+        {
+            cout<<inicio->numSec<<") "<<inicio->nombre<<endl;
+
+            inicio = inicio->sig; /// recorro imprimiendo secciones
+        }// cierre de while de imprimir las secciones
+
+        //examAct->listaSecciones = inicio;  // como luego de imprimir las secciones quedo en null le mando la primera posicion de lista secciones
+        inicio2 = examAct->listaSecciones;
+        cout<<"Ingrese la seccion en la cual desea editar preguntas."<<endl;
+        cin>>opSec;
+        while((inicio2!=NULL)&&(inicio2->numSec!=opSec))
+        {
+            inicio2=inicio2->sig;
+        }//cierre de while
+
+        if ((inicio2!=NULL)&&(inicio2->numSec==opSec)) /// quiere decir que lo encontro la seccion
+        {
+            if (inicio2==NULL)
+            {
+                cout<<"La seccion ingresada no posee preguntas."<<endl;
+                menu();
+            }
+            else{
+                inicioMX = inicio2->preguntasX;
+                while(inicioMX!=NULL)
+                {
+                    cout<<inicioMX->numPreg<<") "<<inicioMX->pregunta<<" ("<<inicioMX->valor<<" pts)"<<endl;
+                    inicioMX = inicioMX->sig;
+                }
+                cout<<"Ingrese la pregunta a editar."<<endl;
+                cin >>opPreg;
+
+                inicioMX=inicio2->preguntasX; // limpio el mae
+
+                while((inicioMX!=NULL)&&(inicioMX->numPreg!=opPreg))
+                {
+                    inicioMX = inicioMX ->sig;
+                }
+                if ((inicioMX != NULL)&&(inicioMX->numPreg==opPreg)) /// encontro la preg
+                {
+                    cout<<"\n[1]. Pregunta\n\t"<<inicioMX->pregunta<<"\n[2]. Opciones de respuesta\n\t"<<endl;
+                    while(x<inicioMX->cantOp)
+                    {
+                        cout<<"\t* "<<inicioMX->opciones[x]<<endl;
+                        x++;
+                    }
+                    cout<<"[3]. Respuesta.\n\t"<< inicioMX->resp <<"Que desea editar?\n"<<endl;
+                    x = 0;
+                    cin>>op;
+                    switch(op)
+                    {
+                    case 1:
+                        cout<<"\nIngrese la nueva pregunta"<<endl;
+                        getline(cin,preg);
+                        getline(cin,preg);
+                        inicioMX->pregunta = preg;
+                        cout<<"nueva preg: "<<inicioMX->pregunta<<endl; // eliminar
+                        break;
+                    case 2:
+                        while(x<inicioMX->cantOp)
+                        {
+                            cout<<x+1<<inicioMX->opciones[x]<<endl;
+                            x++;
+                        }
+                        cout<<"\nIngrese la opcion de respuesta que desea cambiar."<<endl;
+                        cin>>opResp;
+                        while((x<inicioMX->cantOp)&&(inicioMX->opciones[opResp] != inicioMX->opciones[x]))
+                        {
+                            x++;
+                        }
+                        if (inicioMX->opciones==NULL)
+                        {
+                            cout<<"Opcion no valida, intentalo de nuevo."<<endl;
+                            editPregSelecUnic();
+                        }
+                        cout<<"Ingrese la nueva opcion de respuesta."<<endl;
+                        getline(cin,inicioMX->opciones[x]);
+                        getline(cin,inicioMX->opciones[x]);
+                        //inicioMX->opciones[x] = opcPreg;
+                        cout<<"nueva resp: "<<inicioMX->opciones[x]<<endl; // eliminar
+                        break;
+                    case 3:
+                        cout<<"Ingrese la nueva respuesta"<<endl;
+                        getline(cin,inicioMX->resp);
+                        getline(cin,inicioMX->resp);
+                        //inicioMX->resp=opcPreg;
+                        cout<<inicioMX->resp;
+                        break;
+                    default:
+                        cout<<"La opcion ingresada no es correcta."<<endl;
+                        menu();
+                        break;
+                    }
+                }
+            }
+        }
+        else /// no encontro la seccion
+        {
+            cout<<"La opcion ingresada no se encuentra dentro de las opciones."<<endl;
+            menu();
+        }
+    }
+    else
+    {
+        cout<<"El examen ingresado no se encuentra dentro de las opciones."<<endl;
+    }
 }
 
 /// editar preguntas de respuesta corta
@@ -571,14 +711,14 @@ void editPregRespCort() //falta editar
                     switch(op)
                     {
                     case 1:
-                        cout<<"Ingrese la nueva pregunta"<<endl;
+                        cout<<"\nIngrese la nueva pregunta"<<endl;
                         getline(cin,preg);
                         getline(cin,preg);
                         inicioRespC1->pregunta = preg;
                         cout<<"nueva preg: "<<inicioRespC1->pregunta<<endl;
                         break;
                     case 2:
-                        cout<<"Ingrese la nueva respuesta"<<endl;
+                        cout<<"\nIngrese la nueva respuesta"<<endl;
                         getline(cin,preg);
                         getline(cin,preg);
                         inicioRespC1->resp = preg;
@@ -604,9 +744,9 @@ void editPregRespCort() //falta editar
     }
 }
 
-
-void editarSecciones()
+void editarSecciones() /// TOTALMENTE LISTO Y LLAMADO DESDE EL MENU
 {
+    cout<<"=================================================================\n=\t\t\tRenombrar secciones\t\t\t=\n=================================================================\n";
     struct Examen *auxi1,*examAct = cabezaExamen;
     struct Secciones *inicio,*inicio2 = NULL;
     string name = "";
@@ -626,7 +766,7 @@ void editarSecciones()
     cin>>opExam;
     if (examAct==NULL)// el examen no tiene secciones
     {
-        cout<<"El examen seleccionado no cuenta con secciones"<<endl;
+        cout<<"\nEl examen seleccionado no cuenta con secciones"<<endl;
         menu();
     }
     while ((examAct!=NULL)&&(examAct->numExam!=opExam))
@@ -637,7 +777,7 @@ void editarSecciones()
     if ((examAct!=NULL)&&(examAct->numExam==opExam)) /// quiere decir que lo encontro el examen
     {
         inicio = examAct->listaSecciones; // guardo posicion inicial de listasecciones
-
+        cout<<endl;
         while(inicio!=NULL)
         {
             cout<<inicio->numSec<<") "<<inicio->nombre<<endl;
@@ -662,10 +802,11 @@ void editarSecciones()
                 cout<<"La seccion ingresada no contiene preguntas. "<<endl;
                 menu();
             }
-            cout<<"Ingrese el nuevo nombre de la seccion.\n"<<endl;
-            cin>>name;
+            cout<<"\nIngrese el nuevo nombre de la seccion.\n"<<endl;
+            getline(cin,name);
+            getline(cin,name);
             inicio2->nombre = name;
-            cout<<"El nuevo nombre de esta seccion ahora es: "<<inicio2->nombre<<endl;
+            cout<<"\nEl nuevo nombre de esta seccion ahora es: "<<inicio2->nombre<<endl;
         }
         else
         {
@@ -775,9 +916,7 @@ void delPregRespCort(){
 }
 
 
-
 /// eliminar preguntas de marque con x
-
 
 bool buscarSec(int n){
     struct Examen *tempExam = cabezaExamen;
@@ -790,6 +929,7 @@ bool buscarSec(int n){
     else if ((tempExam->listaSecciones == NULL)&&(tempExam->listaSecciones->numSec != n))
         return false;
 }
+
 
 /// eliminar preguntas de marque con x
 void delPregMarqX()
@@ -1037,41 +1177,20 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 
 int main()
 {
-    //string pro,string nom, string pre,string res,string nomSec,int valor)
-    //insertExamenManual("Gretel Rodriguez","Cuantos continentes hay en la actualidad?",);
-    //menu();
-    //insertarSecciones();
     insertarExamenes();
-    //editSecciones();
-    editPregRespCort();
-    editPregRespCort();
-    /*
-    editarSecciones();
-    editarSecciones();
-    editarSecciones();
-    editarSecciones();
-    editarSecciones();
-    //editSecciones();*/
-    //insertarExamenes();
-    //imprimirSecciones();
+
+    //editarSecciones();
+    //editarSecciones();
+
+    editPregSelecUnic();
+    editPregSelecUnic();
+    editPregSelecUnic();
+    editPregSelecUnic();
+
+    //editPregRespCort();
+    //editPregRespCort();
 
     //delPregMarqX();
-
-    //imprimirListaExamenes();
-    //delPregRespCort();
-    //delPregRespCort();
-    //delPregRespCort();
-    //delPregRespCort();
     //delPregMarqX();
-
-    //delPregMarqX();
-    //delPregRespCort();
-    //insertarpreguntasX();
-    //insertarpreguntasCortas();
-    /*insertarpreguntasCortas();
-    insertarpreguntasCortas();
-    insertarpreguntasCortas();
-    imprimirListaPreguntasRC();*/
-
     return 0;
 }

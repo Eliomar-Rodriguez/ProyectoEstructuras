@@ -495,8 +495,8 @@ void editPregRespCort() //falta editar
     struct Secciones *inicio,*inicio2 = NULL;
     struct RespCort *inicioRespC1 = NULL;
 
-    string newPreg = "";//,preg = "";
-    char preg[1000];
+    string newPreg = "",preg = "";
+
 
     int opExam,opSec,opPreg,op;
 
@@ -572,17 +572,16 @@ void editPregRespCort() //falta editar
                     {
                     case 1:
                         cout<<"Ingrese la nueva pregunta"<<endl;
-                        cin.clear();
-                        //getline(cin,preg);
-                        //inicioRespC1->pregunta = preg;
+                        getline(cin,preg);
+                        getline(cin,preg);
+                        inicioRespC1->pregunta = preg;
                         cout<<"nueva preg: "<<inicioRespC1->pregunta<<endl;
                         break;
                     case 2:
                         cout<<"Ingrese la nueva respuesta"<<endl;
-
-                        cin.getline (preg, 1000);
-                        cout <<preg;
-                        //inicioRespC1->resp = preg;
+                        getline(cin,preg);
+                        getline(cin,preg);
+                        inicioRespC1->resp = preg;
                         cout<<"nueva resp: "<<inicioRespC1->resp<<endl;
                         break;
                     default:
@@ -897,7 +896,7 @@ void menu()
                             }
                         case '3':
                             {
-                                //editPregRespCort();
+                                editPregRespCort();
                                 break;
                             }
                         case '4':

@@ -35,7 +35,7 @@ struct MarqX
 {
 
     string nomSec,estado,pregunta,resp,respEst;
-    string MarqX *opciones;
+    string opciones[10];
     int valor,cantOp=0,numPreg=0;
     struct MarqX* sig;
     struct MarqX* ant;
@@ -66,6 +66,8 @@ struct Secciones
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
 {
+    cout<<"=================================================================\n=\t\t\tInsercion de examenes\t\t\t=\n=================================================================\n";
+
     //se crea un nodo nuevo con la información del examen por crear
 
     struct Examen* nn;
@@ -566,7 +568,7 @@ void editPregSelecUnic()//falta editar
                         cout<<"\t* "<<inicioMX->opciones[x]<<endl;
                         x++;
                     }
-                    cout<<"[3]. Respuesta.\n\t"<< inicioMX->resp <<"Que desea editar?\n"<<endl;
+                    cout<<"[3]. Respuesta.\n\t"<< inicioMX->resp <<"\nQue desea editar?\n"<<endl;
                     x = 0;
                     cin>>op;
                     switch(op)
@@ -581,25 +583,29 @@ void editPregSelecUnic()//falta editar
                     case 2:
                         while(x<inicioMX->cantOp)
                         {
-                            cout<<x+1<<inicioMX->opciones[x]<<endl;
+                            cout<<x+1<<") "<<inicioMX->opciones[x]<<endl;
                             x++;
                         }
+                        x=0;
                         cout<<"\nIngrese la opcion de respuesta que desea cambiar."<<endl;
                         cin>>opResp;
-                        while((x<inicioMX->cantOp)&&(inicioMX->opciones[opResp] != inicioMX->opciones[x]))
+                        while((x<inicioMX->cantOp)&&(opResp!=x+1))
                         {
                             x++;
                         }
-                        if (inicioMX->opciones==NULL)
+                        if (x >= inicioMX->cantOp)
                         {
                             cout<<"Opcion no valida, intentalo de nuevo."<<endl;
                             editPregSelecUnic();
                         }
-                        cout<<"Ingrese la nueva opcion de respuesta."<<endl;
-                        getline(cin,inicioMX->opciones[x]);
-                        getline(cin,inicioMX->opciones[x]);
-                        //inicioMX->opciones[x] = opcPreg;
-                        cout<<"nueva resp: "<<inicioMX->opciones[x]<<endl; // eliminar
+                        else if(opResp==x+1){
+                            cout<<"Ingrese la nueva opcion de respuesta."<<endl;
+                            getline(cin,opcPreg);
+                            getline(cin,opcPreg);
+                            inicioMX->opciones[x] = opcPreg;
+                            cout<<"nueva resp: "<<inicioMX->opciones[x]<<endl; // eliminar
+                            }
+                        cout<<"No la encontro"<<endl;
                         break;
                     case 3:
                         cout<<"Ingrese la nueva respuesta"<<endl;

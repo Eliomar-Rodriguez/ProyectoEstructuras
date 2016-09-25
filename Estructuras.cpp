@@ -1103,7 +1103,9 @@ void menu()
 {
         //system("cls");
         char op,opEdit,opDel,opExam;
-        cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
+        cout<<"=================================================================\n=\t\t\t\t\t\t\t\t=\n=\t\tGET (Gestor de Examenes TEC)\t\t\t=\n=\t\t\t\t\t\t\t\t=\n=================================================================\n";
+
+        cout<<"=\t\t\tMenu principal\t\t\t\t=\n=================================================================\n";
         cout<<"=\t[1]. Crear Examen\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
         op = getche(); //obtener opcion
         cout <<endl;
@@ -1199,7 +1201,7 @@ void menu()
                 }
             case '5':
                 {
-                    cout<<"Gracias por usar este sistema.";
+                    cout<<"\n\n=================================================================\n=\tGracias por utilizar GET (Gestor de Examenes TEC)\t=\n=================================================================\n";
                     exit(1);
                     break;
                 }
@@ -1276,6 +1278,7 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 
 int main()
 {
+    menu();
     insertarExamenes();
 
     //editarSecciones();

@@ -35,8 +35,10 @@ struct MarqX
 {
 
     string nomSec,estado,pregunta,resp,respEst;
-    string opciones[7];
-    int valor,numPreg = 0, cantOp = 0;
+
+    string opciones[10];
+    int valor,cantOp=0,numPreg=0;
+
     struct MarqX* sig;
     struct MarqX* ant;
 
@@ -66,6 +68,8 @@ struct Secciones
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
 {
+    cout<<"=================================================================\n=\t\t\tInsercion de examenes\t\t\t=\n=================================================================\n";
+
     //se crea un nodo nuevo con la información del examen por crear
 
     struct Examen* nn;
@@ -79,13 +83,13 @@ struct Examen*insertarExamenes()
     nn->totSec =0;
     int ss = 0;
     //se piden los datos al usuario
-    cout << "Digite el nombre del Examen" << endl;
+    cout << "Digite el nombre del Examen\n\t";
     getline(cin,nom);
-    cout << "Digite el nombre del profe" << endl;
+    cout << "Digite el nombre del profe\n\t";
     getline(cin,pro);
 
     while (mas == true){
-            cout << "Desea ingresar una seccion? Y/N" << endl;
+            cout << "\nDesea ingresar una seccion? Y/N\n\t";
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
@@ -207,17 +211,17 @@ struct Secciones*insertarSecciones()
     int ex = 0,rc = 0,pregX=1,pregC=1;
     nn->numSec = cantSec+1;
     //se piden los datos al usuario
-    cout << "Digite el nombre de la Seccion" << endl;
+    cout << "Digite el nombre de la Seccion\n\t";
     getline(cin,nom);
         //se llenan los datos
     nn->nombre = nom;
     nn->sig = NULL;
-    cout << "Que tipo de seccion desea agregar?\n1) Seleccion Unica\n2) Respuesta Corta" << endl;
+    cout << "\nQue tipo de seccion desea agregar?\n\t1) Seleccion Unica\n\t2) Respuesta Corta\n\t";
     tipo = getche();
     cout << "\n";
     if (tipo == '1'){
         while (mas == true){
-            cout << "Desea ingresar una pregunta? Y/N" << endl;
+            cout << "Desea ingresar una pregunta? Y/n\t" << endl;
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
@@ -648,7 +652,7 @@ void editPregSelecUnic()//falta editar
                         cout<<"\t* "<<inicioMX->opciones[x]<<endl;
                         x++;
                     }
-                    cout<<"[3]. Respuesta.\n\t"<< inicioMX->resp <<"Que desea editar?\n"<<endl;
+                    cout<<"[3]. Respuesta.\n\t"<< inicioMX->resp <<"\nQue desea editar?\n"<<endl;
                     x = 0;
                     cin>>op;
                     switch(op)
@@ -663,31 +667,34 @@ void editPregSelecUnic()//falta editar
                     case 2:
                         while(x<inicioMX->cantOp)
                         {
-                            cout<<x+1<<inicioMX->opciones[x]<<endl;
+                            cout<<x+1<<") "<<inicioMX->opciones[x]<<endl;
                             x++;
                         }
+                        x=0;
                         cout<<"\nIngrese la opcion de respuesta que desea cambiar."<<endl;
                         cin>>opResp;
-                        while((x<inicioMX->cantOp)&&(inicioMX->opciones[opResp] != inicioMX->opciones[x]))
+                        while((x<inicioMX->cantOp)&&(opResp!=x+1))
                         {
                             x++;
                         }
-                        if (inicioMX->opciones==NULL)
+                        if (x >= inicioMX->cantOp)
                         {
                             cout<<"Opcion no valida, intentalo de nuevo."<<endl;
                             editPregSelecUnic();
                         }
-                        cout<<"Ingrese la nueva opcion de respuesta."<<endl;
-                        getline(cin,inicioMX->opciones[x]);
-                        getline(cin,inicioMX->opciones[x]);
-                        //inicioMX->opciones[x] = opcPreg;
-                        cout<<"nueva resp: "<<inicioMX->opciones[x]<<endl; // eliminar
+                        else if(opResp==x+1){
+                            cout<<"Ingrese la nueva opcion de respuesta."<<endl;
+                            getline(cin,opcPreg);
+                            getline(cin,opcPreg);
+                            inicioMX->opciones[x] = opcPreg;
+                            cout<<"nueva resp: "<<inicioMX->opciones[x]<<endl; // eliminar
+                            }
+                        cout<<"No la encontro"<<endl;
                         break;
                     case 3:
                         cout<<"Ingrese la nueva respuesta"<<endl;
                         getline(cin,inicioMX->resp);
                         getline(cin,inicioMX->resp);
-                        //inicioMX->resp=opcPreg;
                         cout<<inicioMX->resp;
                         break;
                     default:
@@ -1120,7 +1127,9 @@ void menu()
 {
         //system("cls");
         char op,opEdit,opDel,opExam;
-        cout<<"=================================================================\n=\t\t\t  Menu principal\t\t\t=\n=================================================================\n";
+        cout<<"=================================================================\n=\t\t\t\t\t\t\t\t=\n=\t\tGET (Gestor de Examenes TEC)\t\t\t=\n=\t\t\t\t\t\t\t\t=\n=================================================================\n";
+
+        cout<<"=\t\t\tMenu principal\t\t\t\t=\n=================================================================\n";
         cout<<"=\t[1]. Crear Examen\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
         op = getche(); //obtener opcion
         cout <<endl;
@@ -1216,7 +1225,7 @@ void menu()
                 }
             case '5':
                 {
-                    cout<<"Gracias por usar este sistema.";
+                    cout<<"\n\n=================================================================\n=\tGracias por utilizar GET (Gestor de Examenes TEC)\t=\n=================================================================\n";
                     exit(1);
                     break;
                 }
@@ -1293,6 +1302,7 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 
 int main()
 {
+    menu();
     insertarExamenes();
 
     //editarSecciones();

@@ -36,7 +36,7 @@ struct MarqX
 
     string nomSec,estado,pregunta,resp,respEst;
     string opciones[7];
-    int valor,numPreg=0;
+    int valor,numPreg = 0;
     struct MarqX* sig;
     struct MarqX* ant;
 
@@ -46,7 +46,7 @@ struct MarqX
 struct RespCort
 {
     string resp,respEst,nomSec,pregunta,estado;
-    int valor,numPreg=0;
+    int valor,numPreg = 0;
     float porcentaje;
     struct RespCort* sig;
     struct RespCort* ant;
@@ -139,9 +139,11 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         while(temp->listaSecciones != NULL){//SE CAE PORQUE SE DESBORDA LA LISTA DE PREGUNTASCORTAS...
+            if (temp->listaSecciones->preguntasX != NULL){
             cout << temp->listaSecciones->numSec <<") "<< temp->listaSecciones->nombre << endl;
             cout << temp->listaSecciones->preguntasX->numPreg <<") "<< temp->listaSecciones->preguntasX->pregunta << endl;
-            temp->listaSecciones->preguntasX = temp->listaSecciones->preguntasX->sig;
+            temp->listaSecciones->preguntasX = temp->listaSecciones->preguntasX->sig;}
+            else break;
             }
         temp = temp->sig;
     }
@@ -230,8 +232,6 @@ struct Secciones*insertarSecciones()
                     equis->ant = cabezaX;
                     cabezaX = equis;
                 }
-
-                nn->preguntasX = nn->preguntasX->sig;
                 pregX++;
             }
             else if ((otra == 'N') || (otra == 'n'))
@@ -748,16 +748,18 @@ bool buscarSec(int n){
 }
 
 /// eliminar preguntas de marque con x
-void delPregMarqX()
+struct Examen *delPregMarqX()
 {
     struct Examen* tempExam = cabezaExamen;
     struct Examen *auxiliar = cabezaExamen;
     struct Secciones *auxiliar2 = cabezaSec;
-    struct MarqX *anterior;
+    struct Secciones *auxiliar3 = cabezaSec;
+    struct MarqX *anterior = cabezaX;
     struct MarqX * pregDel;
     int opExam,delPreg,opSec;  // almacenara la pregunta a eliminar
     int numPreg=1,y=0,x=0,z=0,h=0;  //numero de pregunta, variables para las posiciones
-    string opSec2;
+    string opSec2,delPreg2;
+
     while(tempExam!=NULL)
     {
         if (tempExam->numExam != 0)//validacion para que no imprima puros 0)
@@ -769,49 +771,81 @@ void delPregMarqX()
 
     while(auxiliar!=NULL)
     {
-    if (auxiliar->numExam == opExam)  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
-    {
-        if (auxiliar->listaSecciones == NULL)
+        if (auxiliar->numExam == opExam)  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
         {
-            cout<<"Este examen esta vacio por lo que no posee secciones."<<endl;
-            menu();
-        }
-        while (y < auxiliar->totSec){
-            if ((auxiliar->listaSecciones!=NULL)&&(auxiliar->listaSecciones->numSec != 0)){
-                cout<< auxiliar->listaSecciones->numSec<< ") "<< auxiliar->listaSecciones->nombre <<endl;
-            }
-            auxiliar->listaSecciones= auxiliar->listaSecciones->sig;
-            y++;
-        }
-        cout << "Seleccione la seccion en la cual desea eliminar preguntas."<<endl;
-        Sleep(300);
-        cin >> opSec2;
-        opSec = atoi(opSec2.c_str());
-
-        while (auxiliar2 != NULL)
-        {
-            if (auxiliar2->numSec == opSec)  // aqui ya encontro la seccion en la cual quiero eliminar preguntas
+            if (auxiliar->listaSecciones == NULL)
             {
-                while(z < auxiliar2->cantPregX){
-                    if ((auxiliar2->preguntasX!=NULL)&&(auxiliar2->preguntasX->numPreg != 0)){
-                        cout<< auxiliar2->preguntasX->numPreg<< ") "<< auxiliar2->preguntasX->pregunta <<" ("<< auxiliar2->preguntasX->valor<<" pts)"<<endl;
+                cout<<"Este examen esta vacio por lo que no posee secciones."<<endl;
+                menu();
+            }
+            while (y < auxiliar->totSec){
+                if ((auxiliar->listaSecciones!=NULL)&&(auxiliar->listaSecciones->numSec != 0)){
+                    cout<< auxiliar->listaSecciones->numSec<< ") "<< auxiliar->listaSecciones->nombre <<endl;
+                }
+                auxiliar->listaSecciones= auxiliar->listaSecciones->sig;
+                y++;
+            }
+            cout << "Seleccione la seccion en la cual desea eliminar preguntas."<<endl;
+            cin >> opSec2;
+            opSec = atoi(opSec2.c_str());
+            while (auxiliar2 != NULL)
+            {
+                if (auxiliar2->numSec == opSec)  // aqui ya encontro la seccion en la cual quiero eliminar preguntas
+                {
+                    while(z < auxiliar2->cantPregX){
+                        if ((auxiliar2->preguntasX != NULL)&&(auxiliar2->preguntasX->numPreg != 0)){
+                            cout<< auxiliar2->preguntasX->numPreg<< ") "<< auxiliar2->preguntasX->pregunta <<" ("<< auxiliar2->preguntasX->valor<<" pts)"<<endl;
+                            }
+                        auxiliar2->preguntasX = auxiliar2->preguntasX->sig;
+                        z++;
                         }
-                    auxiliar2->preguntasX = auxiliar2->preguntasX->sig;
-                    z++;
+                    cout << "Digite la pregunta por eliminar" << endl;
+                    cin >> delPreg2;
+                    delPreg = atoi(delPreg2.c_str());
+                   // auxiliar2 = cabezaSec;
+                    cout << "ACM1PT" << endl;
+                    while (anterior != NULL)
+                    {
+                        cout << "ACM1PT1" << endl;
+                        if (anterior->numPreg == delPreg)
+                        {
+                            cout << "ACM1PT2" << endl;
+                            if (anterior->sig == NULL){ // ojo con el sig...
+                                cout << "ACM1PT3" << endl;
+                                pregDel = anterior;
+                                //cabezaX = auxiliar2->preguntasX->sig;
+                                //anterior->sig->ant = NULL;
+                                free(pregDel);
+                            }
+                            /*else if (//caso 2, en el medio)
+                            {
+
+                            }*/
+                            else // caso 3, en el final...
+                                {
+
+                                }
+                        }
+
+                        else
+                            {
+                            cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
+                            delPregMarqX();
+                            }
+                        auxiliar3->preguntasX = auxiliar3->preguntasX->sig;
                     }
-                cout << "Digite la pregunta por eliminar";
             }
             else
-                {
-                cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
-                delPregMarqX();
-                }
+            {
+                cout << "La vaina no se encuentra en el systmem..." << endl;
+                break;
+            }
             auxiliar2 = auxiliar2->sig;
         }
-        auxiliar = auxiliar->sig;
     }
-    return;
+    auxiliar = auxiliar->sig;
     }
+    cout << "La huevada ha sido removida..." << endl;
 }
 
 
@@ -1021,6 +1055,8 @@ int main()
     //delPregMarqX();
 
     delPregMarqX();
+    imprimirListaExamenes();
+    //delPregMarqX();
     //delPregRespCort();
     //insertarpreguntasX();
     //insertarpreguntasCortas();

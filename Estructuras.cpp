@@ -804,15 +804,15 @@ struct Examen *delPregMarqX()
                     delPreg = atoi(delPreg2.c_str());
                    // auxiliar2 = cabezaSec;
                     cout << "ACM1PT" << endl;
-                    while (anterior != NULL)
+                    while (auxiliar->listaSecciones->preguntasX != NULL)
                     {
                         cout << "ACM1PT1" << endl;
-                        if (anterior->numPreg == delPreg)
+                        if (auxiliar->listaSecciones->preguntasX->numPreg == delPreg)
                         {
                             cout << "ACM1PT2" << endl;
-                            if (anterior->sig == NULL){ // ojo con el sig...
+                            if (auxiliar->listaSecciones->preguntasX->ant == NULL){ // ojo con el sig/ant...
                                 cout << "ACM1PT3" << endl;
-                                pregDel = anterior;
+                                pregDel = auxiliar->listaSecciones->preguntasX;
                                 //cabezaX = auxiliar2->preguntasX->sig;
                                 //anterior->sig->ant = NULL;
                                 free(pregDel);
@@ -832,18 +832,18 @@ struct Examen *delPregMarqX()
                             cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
                             delPregMarqX();
                             }
-                        auxiliar3->preguntasX = auxiliar3->preguntasX->sig;
+                        auxiliar->listaSecciones->preguntasX = auxiliar->listaSecciones->preguntasX->sig;
                     }
+                }
+                else
+                {
+                    cout << "La vaina no se encuentra en el systmem..." << endl;
+                    break;
+                }
+                auxiliar2 = auxiliar2->sig;
             }
-            else
-            {
-                cout << "La vaina no se encuentra en el systmem..." << endl;
-                break;
-            }
-            auxiliar2 = auxiliar2->sig;
         }
-    }
-    auxiliar = auxiliar->sig;
+        auxiliar = auxiliar->sig;
     }
     cout << "La huevada ha sido removida..." << endl;
 }

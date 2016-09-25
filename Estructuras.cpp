@@ -35,8 +35,10 @@ struct MarqX
 {
 
     string nomSec,estado,pregunta,resp,respEst;
+
     string opciones[10];
     int valor,cantOp=0,numPreg=0;
+
     struct MarqX* sig;
     struct MarqX* ant;
 
@@ -46,7 +48,7 @@ struct MarqX
 struct RespCort
 {
     string resp,respEst,nomSec,pregunta,estado;
-    int valor,numPreg=0;
+    int valor,numPreg = 0;
     float porcentaje;
     struct RespCort* sig;
     struct RespCort* ant;
@@ -81,13 +83,13 @@ struct Examen*insertarExamenes()
     nn->totSec =0;
     int ss = 0;
     //se piden los datos al usuario
-    cout << "Digite el nombre del Examen" << endl;
+    cout << "Digite el nombre del Examen\n\t";
     getline(cin,nom);
-    cout << "Digite el nombre del profe" << endl;
+    cout << "Digite el nombre del profe\n\t";
     getline(cin,pro);
 
     while (mas == true){
-            cout << "Desea ingresar una seccion? Y/N" << endl;
+            cout << "\nDesea ingresar una seccion? Y/N\n\t";
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
@@ -141,9 +143,11 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
     {
         cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
         while(temp->listaSecciones != NULL){//SE CAE PORQUE SE DESBORDA LA LISTA DE PREGUNTASCORTAS...
+            if (temp->listaSecciones->preguntasX != NULL){
             cout << temp->listaSecciones->numSec <<") "<< temp->listaSecciones->nombre << endl;
             cout << temp->listaSecciones->preguntasX->numPreg <<") "<< temp->listaSecciones->preguntasX->pregunta << endl;
-            temp->listaSecciones->preguntasX = temp->listaSecciones->preguntasX->sig;
+            temp->listaSecciones->preguntasX = temp->listaSecciones->preguntasX->sig;}
+            else break;
             }
         temp = temp->sig;
     }
@@ -207,17 +211,17 @@ struct Secciones*insertarSecciones()
     int ex = 0,rc = 0,pregX=1,pregC=1;
     nn->numSec = cantSec+1;
     //se piden los datos al usuario
-    cout << "Digite el nombre de la Seccion" << endl;
+    cout << "Digite el nombre de la Seccion\n\t";
     getline(cin,nom);
         //se llenan los datos
     nn->nombre = nom;
     nn->sig = NULL;
-    cout << "Que tipo de seccion desea agregar?\n1) Seleccion Unica\n2) Respuesta Corta" << endl;
+    cout << "\nQue tipo de seccion desea agregar?\n\t1) Seleccion Unica\n\t2) Respuesta Corta\n\t";
     tipo = getche();
     cout << "\n";
     if (tipo == '1'){
         while (mas == true){
-            cout << "Desea ingresar una pregunta? Y/N" << endl;
+            cout << "Desea ingresar una pregunta? Y/n\t" << endl;
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
@@ -336,45 +340,76 @@ void imprimirListaPreguntasRC() /// no se ocupara creo
     }
 }
 
-//Funciòn que sirve para responder preguntas de Respuesta Corta
-void responderRC(RespCort*cabezaRC)
+
+//FunciÃ²n que sirve para responder preguntas de Respuesta Corta
+void responderRC()
 {
-    string respuesta;
+    struct Examen * inicio = cabezaExamen;
+    struct Examen * Examen2 = inicio;
+    string respuesta, exa;
     int contador = 0;
-    double coin = (cabezaRC->resp.length()*60)/100; // porcentaje mínimo de semejanza en la respuesta para acertar o fallar la pregunta.
-
-    if (cabezaRC != NULL)
+    double coin = (Examen2->listaSecciones->preguntasCortas->resp.length()*60)/100; // porcentaje mÃ­nimo de semejanza en la respuesta para acertar o fallar la pregunta.
+    while(Examen2!=NULL)
+    {
+        if (Examen2->numExam!= 0)//validacion para que no imprima puros 0)
+            cout<< Examen2->numExam << ") "<< Examen2->nombre <<endl;
+        Examen2 = Examen2->sig;
+    }
+    cout<<"Seleccione el examen en cual desea responder preguntas."<<endl;
+    cin>>exa;
+    Examen2 = NULL;
+    Examen2 = inicio;
+    while (Examen2 != NULL)
+    {
+        while (Examen2->listaSecciones != NULL)
         {
-            cout << cabezaRC->pregunta << "(" << cabezaRC->valor << "pts)" << endl;
-            cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
-            getline(cin,respuesta);
-
-            for(int i = 0; respuesta[i]; i++)
-                respuesta[i] = tolower(respuesta[i]); //se transforma la respuesta a caracteres en minuscula.
-
-            cabezaRC->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
-
-            for (int x = 0; cabezaRC->resp[x] != '\0' ;x++) //ciclo que revisa caracter por caracter para validar la respuesta.
-                if (cabezaRC->resp[x] == respuesta[x])
-                    contador++;     //se lleva un contador con la cantidad de caracteres similares
-            if (contador > coin)
-                {
-                cabezaRC->estado = "correcta";  //se guarda la pregunta como "correcta" si la cantidad de coincidencias es mayor al 60% de la pregunta.
-                cabezaRC->porcentaje = (contador*100)/cabezaRC->resp.length();
-                } //se guarda el porcentaje de acierto para desplegarlo más adelante.
-            else
+            if (Examen2->listaSecciones->preguntasCortas != NULL)
             {
-                cabezaRC->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
-                cabezaRC->porcentaje = (contador*100)/cabezaRC->resp.length();//se guarda el porcentaje de acierto para desplegarlo más adelante.
-            }
-        }
+                contador = 0;
+                cout << Examen2->listaSecciones->preguntasCortas->pregunta << "(" << Examen2->listaSecciones->preguntasCortas->valor << "pts)" << endl;
+                cin.ignore();
+                cout << "Digite su respuesta plz..." << endl;   //se introduce la respuesta a la pregunta
+                cin >> respuesta;
 
-        cout << "Respuesta Introducida = "+ cabezaRC->respEst <<endl;
-        cout << "Respuesta Correcta = " + cabezaRC->resp <<endl;
-        cout << "Estado de la pregunta = "+ cabezaRC->estado << endl;
-        cout << "Porcentaje de igualdad de la respuesta = ";
-        cout << cabezaRC->porcentaje;
-        cout << "%" << endl;
+                for(int i = 0; respuesta[i]; i++)
+                    respuesta[i] = tolower(respuesta[i]); //se transforma la respuesta a caracteres en minuscula.
+
+                Examen2->listaSecciones->preguntasCortas->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
+
+                for (int x = 0; Examen2->listaSecciones->preguntasCortas->resp[x] != '\0' ;x++) //ciclo que revisa caracter por caracter para validar la respuesta.
+                    if (Examen2->listaSecciones->preguntasCortas->resp[x] == respuesta[x])
+                        contador++;     //se lleva un contador con la cantidad de caracteres similares
+                if (contador >= coin)
+                    {
+                    Examen2->listaSecciones->preguntasCortas->estado = "correcta";  //se guarda la pregunta como "correcta" si la cantidad de coincidencias es mayor al 60% de la pregunta.
+                    Examen2->listaSecciones->preguntasCortas->porcentaje = (contador*100)/Examen2->listaSecciones->preguntasCortas->resp.length();
+                    Examen2->correctas ++;
+                    Examen2->total_puntos += Examen2->listaSecciones->preguntasCortas->valor;
+                    } //se guarda el porcentaje de acierto para desplegarlo mÃ¡s adelante.
+                else
+                {
+                    Examen2->listaSecciones->preguntasCortas->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
+                    Examen2->listaSecciones->preguntasCortas->porcentaje = (contador*100)/Examen2->listaSecciones->preguntasCortas->resp.length();//se guarda el porcentaje de acierto para desplegarlo mÃ¡s adelante.
+                    Examen2->malas ++;
+                }
+            }
+
+            cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasCortas->respEst <<endl;
+            cout << "Respuesta Correcta = " + Examen2->listaSecciones->preguntasCortas->resp <<endl;
+            cout << "Estado de la pregunta = "+ Examen2->listaSecciones->preguntasCortas->estado << endl;
+            cout << "Porcentaje de igualdad de la respuesta = ";
+            cout << Examen2->listaSecciones->preguntasCortas->porcentaje;
+            cout << "%" << endl;
+            cout << "Puntos totales del examen = ";
+            cout << Examen2->total_puntos <<endl;
+                if (Examen2->listaSecciones->preguntasCortas->sig == NULL)
+                    break;
+                Examen2->listaSecciones->preguntasCortas = Examen2->listaSecciones->preguntasCortas->sig;
+        }
+        if (Examen2->listaSecciones->sig == NULL)
+            break;
+        Examen2->listaSecciones= Examen2->listaSecciones->sig;
+    }
 }
 
 /// Función que inserta nuevas preguntas de marcar con x al final de la lista de preguntas de marque con x.
@@ -456,33 +491,58 @@ void imprimirListaPreguntasX()  /// lo mas seguro es que se elimine
 }
 
 /// responder preguntas de marque con x
-void responderX(MarqX*cabezaX)
+void responderX()
 {
-    string respuesta;
+    struct Examen * inicio = cabezaExamen;
+    struct Examen * Examen2 = inicio;
+    string respuesta, exa;
+    while(Examen2!=NULL)
+    {
+        if (Examen2->numExam!= 0)//validacion para que no imprima puros 0)
+            cout<< Examen2->numExam << ") "<< Examen2->nombre <<endl;
+        Examen2 = Examen2->sig;
+    }
+    cout<<"Seleccione el examen en cual desea responder preguntas."<<endl;
+    cin>>exa;
+    Examen2 = NULL;
+    Examen2 = inicio;
+    while (Examen2 != NULL){
+            while (Examen2->listaSecciones != NULL){
+                if (Examen2->listaSecciones->preguntasX != NULL){
+                    cout << Examen2->listaSecciones->preguntasX->pregunta << "(" << Examen2->listaSecciones->preguntasX->valor << "pts)" << endl;
+                    for (int x = 0; Examen2->listaSecciones->preguntasX->opciones[x] != "" ;x++){ //ciclo que revisa caracter por caracter para validar la respuesta.
+                        cout << x+1 << ") " << Examen2->listaSecciones->preguntasX->opciones[x] << endl;
+                    }
+                    cin.ignore();
+                    cout << "Digite su respuesta." << endl;   //se introduce la respuesta a la pregunta
+                    cin >> respuesta;
 
-    if (cabezaX != NULL){
-        cout << cabezaX->pregunta << "(" << cabezaX->valor << "pts)" << endl;
-        for (int x = 0; cabezaX->opciones[x] != "" ;x++){ //ciclo que revisa caracter por caracter para validar la respuesta.
-            cout << x+1 << ") " << cabezaX->opciones[x] << endl;
+                    Examen2->listaSecciones->preguntasX->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
+
+                    if (respuesta == Examen2->listaSecciones->preguntasX->resp){
+                        Examen2->listaSecciones->preguntasX->estado = "correcta";  //se guarda la pregunta como "correcta" si la cantidad de coincidencias es mayor al 60% de la pregunta.
+                        Examen2->correctas ++;
+                        Examen2->total_puntos += Examen2->listaSecciones->preguntasX->valor;}
+                    else{
+                        Examen2->listaSecciones->preguntasX->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
+                        Examen2->malas ++;
+                        }
+                    //Codigo para despues...
+                    cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasX->respEst <<endl;
+                    cout << "Respuesta Correcta = " + Examen2->listaSecciones->preguntasX->resp <<endl;
+                    cout << "Estado de la pregunta = "+ Examen2->listaSecciones->preguntasX->estado << endl;
+                    cout << "Puntos totales del examen = ";
+                    cout << Examen2->total_puntos <<endl;
+                }
+                if (Examen2->listaSecciones->preguntasX->sig == NULL)
+                    break;
+                Examen2->listaSecciones->preguntasX = Examen2->listaSecciones->preguntasX->sig;
         }
-        cout << "Digite su respuesta." << endl;   //se introduce la respuesta a la pregunta
-        getline(cin,respuesta);
-
-        cabezaX->respEst = respuesta;  //se guarda la respuesta en el nodo correspondiente
-
-        if (respuesta == cabezaX->resp)
-            cabezaX->estado = "correcta";  //se guarda la pregunta como "correcta" si la cantidad de coincidencias es mayor al 60% de la pregunta.
-        else
-
-            cabezaX->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
-
-        //Codigo para despues...
-        cout << "Respuesta Introducida = "+ cabezaX->respEst <<endl;
-        cout << "Respuesta Correcta = " + cabezaX->resp <<endl;
-        cout << "Estado de la pregunta = "+ cabezaX->estado << endl;
+        if (Examen2->listaSecciones->sig == NULL)
+            break;
+        Examen2->listaSecciones= Examen2->listaSecciones->sig;
     }
 }
-
 
 
 /// editar preguntas de marque con x
@@ -937,16 +997,18 @@ bool buscarSec(int n){
 
 
 /// eliminar preguntas de marque con x
-void delPregMarqX()
+struct Examen *delPregMarqX()
 {
     struct Examen* tempExam = cabezaExamen;
     struct Examen *auxiliar = cabezaExamen;
     struct Secciones *auxiliar2 = cabezaSec;
-    struct MarqX *anterior;
+    struct Secciones *auxiliar3 = cabezaSec;
+    struct MarqX *anterior = cabezaX;
     struct MarqX * pregDel;
     int opExam,delPreg,opSec;  // almacenara la pregunta a eliminar
     int numPreg=1,y=0,x=0,z=0,h=0;  //numero de pregunta, variables para las posiciones
-    string opSec2;
+    string opSec2,delPreg2;
+
     while(tempExam!=NULL)
     {
         if (tempExam->numExam != 0)//validacion para que no imprima puros 0)
@@ -958,49 +1020,81 @@ void delPregMarqX()
 
     while(auxiliar!=NULL)
     {
-    if (auxiliar->numExam == opExam)  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
-    {
-        if (auxiliar->listaSecciones == NULL)
+        if (auxiliar->numExam == opExam)  // encuentra el examen y procede a mostrar la lista de secciones que tiene ese examen
         {
-            cout<<"Este examen esta vacio por lo que no posee secciones."<<endl;
-            menu();
-        }
-        while (y < auxiliar->totSec){
-            if ((auxiliar->listaSecciones!=NULL)&&(auxiliar->listaSecciones->numSec != 0)){
-                cout<< auxiliar->listaSecciones->numSec<< ") "<< auxiliar->listaSecciones->nombre <<endl;
-            }
-            auxiliar->listaSecciones= auxiliar->listaSecciones->sig;
-            y++;
-        }
-        cout << "Seleccione la seccion en la cual desea eliminar preguntas."<<endl;
-        cin >> opSec2;
-        opSec = atoi(opSec2.c_str());
-
-        while (auxiliar2 != NULL)
-        {
-            if (auxiliar2->numSec == opSec)  // aqui ya encontro la seccion en la cual quiero eliminar preguntas
+            if (auxiliar->listaSecciones == NULL)
             {
-                while(z < auxiliar2->cantPregX){
-                    if ((auxiliar2->preguntasX!=NULL)&&(auxiliar2->preguntasX->numPreg != 0)){
-                        cout<< auxiliar2->preguntasX->numPreg<< ") "<< auxiliar2->preguntasX->pregunta <<" ("<< auxiliar2->preguntasX->valor<<" pts)"<<endl;
-                        }
-                    auxiliar2->preguntasX = auxiliar2->preguntasX->sig;
-                    z++;
-                    }
-                cout << "Digite la pregunta por eliminar";
+                cout<<"Este examen esta vacio por lo que no posee secciones."<<endl;
+                menu();
             }
-            else
-                {
-                cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
-                delPregMarqX();
+            while (y < auxiliar->totSec){
+                if ((auxiliar->listaSecciones!=NULL)&&(auxiliar->listaSecciones->numSec != 0)){
+                    cout<< auxiliar->listaSecciones->numSec<< ") "<< auxiliar->listaSecciones->nombre <<endl;
                 }
-            auxiliar2 = auxiliar2->sig;
+                auxiliar->listaSecciones= auxiliar->listaSecciones->sig;
+                y++;
+            }
+            cout << "Seleccione la seccion en la cual desea eliminar preguntas."<<endl;
+            cin >> opSec2;
+            opSec = atoi(opSec2.c_str());
+            while (auxiliar2 != NULL)
+            {
+                if (auxiliar2->numSec == opSec)  // aqui ya encontro la seccion en la cual quiero eliminar preguntas
+                {
+                    while(z < auxiliar2->cantPregX){
+                        if ((auxiliar2->preguntasX != NULL)&&(auxiliar2->preguntasX->numPreg != 0)){
+                            cout<< auxiliar2->preguntasX->numPreg<< ") "<< auxiliar2->preguntasX->pregunta <<" ("<< auxiliar2->preguntasX->valor<<" pts)"<<endl;
+                            }
+                        auxiliar2->preguntasX = auxiliar2->preguntasX->sig;
+                        z++;
+                        }
+                    cout << "Digite la pregunta por eliminar" << endl;
+                    cin >> delPreg2;
+                    delPreg = atoi(delPreg2.c_str());
+                   // auxiliar2 = cabezaSec;
+                    cout << "ACM1PT" << endl;
+                    while (auxiliar->listaSecciones->preguntasX != NULL)
+                    {
+                        cout << "ACM1PT1" << endl;
+                        if (auxiliar->listaSecciones->preguntasX->numPreg == delPreg)
+                        {
+                            cout << "ACM1PT2" << endl;
+                            if (auxiliar->listaSecciones->preguntasX->ant == NULL){ // ojo con el sig/ant...
+                                cout << "ACM1PT3" << endl;
+                                pregDel = auxiliar->listaSecciones->preguntasX;
+                                //cabezaX = auxiliar2->preguntasX->sig;
+                                //anterior->sig->ant = NULL;
+                                free(pregDel);
+                            }
+                            /*else if (//caso 2, en el medio)
+                            {
+
+                            }*/
+                            else // caso 3, en el final...
+                                {
+
+                                }
+                        }
+
+                        else
+                            {
+                            cout<<"La opcion ingresada no se encuentra dentro de las opciones disponibles, intentalo de nuevo."<<endl;
+                            delPregMarqX();
+                            }
+                        auxiliar->listaSecciones->preguntasX = auxiliar->listaSecciones->preguntasX->sig;
+                    }
+                }
+                else
+                {
+                    cout << "La vaina no se encuentra en el systmem..." << endl;
+                    break;
+                }
+                auxiliar2 = auxiliar2->sig;
+            }
         }
         auxiliar = auxiliar->sig;
     }
-
-    }
-    return;
+    cout << "La huevada ha sido removida..." << endl;
 }
 
 
@@ -1187,6 +1281,23 @@ int main()
     //editarSecciones();
     //editarSecciones();
 
+    //imprimirListaExamenes();
+    //delPregRespCort();
+    //delPregRespCort();
+    //delPregRespCort();
+    //delPregRespCort();
+    //delPregMarqX();
+    //responderRC();
+    //responderX();
+    //imprimirListaExamenes();
+    //delPregMarqX();
+    //delPregRespCort();
+    //insertarpreguntasX();
+    //insertarpreguntasCortas();
+    /*insertarpreguntasCortas();
+    insertarpreguntasCortas();
+    insertarpreguntasCortas();
+    imprimirListaPreguntasRC();*/
     editPregSelecUnic();
     editPregSelecUnic();
     editPregSelecUnic();

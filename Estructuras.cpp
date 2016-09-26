@@ -68,6 +68,7 @@ struct Secciones
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
 {
+    system("cls");
     cout<<"=================================================================\n=\t\t\tInsercion de examenes\t\t\t=\n=================================================================\n";
 
     //se crea un nodo nuevo con la información del examen por crear
@@ -85,7 +86,7 @@ struct Examen*insertarExamenes()
     //se piden los datos al usuario
     cout << "Digite el nombre del Examen\n\t";
     getline(cin,nom);
-    cout << "Digite el nombre del profe\n\t";
+    cout << "\nDigite el nombre del profe\n\t";
     getline(cin,pro);
 
     while (mas == true){
@@ -94,6 +95,7 @@ struct Examen*insertarExamenes()
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
                 nn->totSec++; /// total de secciones
+                cout<<endl;
                 sect = insertarSecciones();
                 if (nn->listaSecciones == NULL){
                     nn->listaSecciones = sect;
@@ -105,6 +107,7 @@ struct Examen*insertarExamenes()
                     }
                 }
             else if ((otra == 'N') || (otra == 'n'))
+                //menu();
                 break;
             else
             {
@@ -195,6 +198,7 @@ struct RespCort* insertarpreguntasCortas(int numP)
 
 struct Secciones*insertarSecciones()
 {
+    system("cls");
     cout<<"=================================================================\n=\t\t\tInsercion de Secciones \t\t\t=\n=================================================================\n";
     //se crea un nodo nuevo con la información del examen por crear
     struct Secciones* nn;
@@ -221,7 +225,7 @@ struct Secciones*insertarSecciones()
     cout << "\n";
     if (tipo == '1'){
         while (mas == true){
-            cout << "Desea ingresar una pregunta? Y/n\t" << endl;
+            cout << "Desea ingresar una pregunta? Y/N\t" << endl;
             otra = getche();
             cout << "\n";
             if ((otra == 'Y') || (otra == 'y')){
@@ -1101,12 +1105,12 @@ struct Examen *delPregMarqX()
 /// menu principal
 void menu()
 {
-        //system("cls");
+        system("cls");
         char op,opEdit,opDel,opExam;
         cout<<"=================================================================\n=\t\t\t\t\t\t\t\t=\n=\t\tGET (Gestor de Examenes TEC)\t\t\t=\n=\t\t\t\t\t\t\t\t=\n=================================================================\n";
 
         cout<<"=\t\t\tMenu principal\t\t\t\t=\n=================================================================\n";
-        cout<<"=\t[1]. Crear Examen\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
+        cout<<"=\t[1]. Crear Examen\t\t\t\t\t=\n=\t[2]. Modificar Preguntas / Secciones\t\t\t=\n=\t[3]. Borrar Preguntas / Secciones\t\t\t=\n=\t[4]. Realizar Examen      \t\t\t\t=\n=\t[5]. Salir\t\t\t\t\t\t=\n=\t\t\t\t\t\t\t\t\n=\t";
         op = getche(); //obtener opcion
         cout <<endl;
         switch(op){

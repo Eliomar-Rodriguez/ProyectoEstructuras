@@ -135,6 +135,7 @@ struct Examen*insertarExamenes()
         cabezaExamen = nn;
     }
     cantExams ++ ;
+    menu();
 }
 
 //Función que imprime los examenes creados en el sistema
@@ -1221,12 +1222,12 @@ void menu()
                             }
                         case '2':
                             {
-                                //delPregMarqX();
+                                delPregMarqX();
                                 break;
                             }
                         case '3':
                             {
-                                //delPregRespCort();
+                                delPregRespCort();
                                 break;
                             }
                         case '4':
@@ -1328,8 +1329,8 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 
 int main()
 {
-    //menu();
-    insertarExamenes();
+    menu();
+    //insertarExamenes();
 
     //editarSecciones();
     //editarSecciones();
@@ -1340,7 +1341,7 @@ int main()
     //delPregRespCort();
     //delPregRespCort();
     //delPregMarqX();
-    responderRC();
+    //responderRC();
     //responderX();
     //imprimirListaExamenes();
     //delPregMarqX();

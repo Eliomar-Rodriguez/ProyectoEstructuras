@@ -65,6 +65,8 @@ struct Secciones
     struct Secciones* sig;
 }*cabezaSec;
 
+
+void imprimirRespuestas(Examen*Examen2);
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
 {
@@ -398,14 +400,14 @@ void responderRC()
                 }
             }
 
-            cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasCortas->respEst <<endl;
+            /*cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasCortas->respEst <<endl;
             cout << "Respuesta Correcta = " + Examen2->listaSecciones->preguntasCortas->resp <<endl;
             cout << "Estado de la pregunta = "+ Examen2->listaSecciones->preguntasCortas->estado << endl;
             cout << "Porcentaje de igualdad de la respuesta = ";
             cout << Examen2->listaSecciones->preguntasCortas->porcentaje;
             cout << "%" << endl;
             cout << "Puntos totales del examen = ";
-            cout << Examen2->total_puntos <<endl;
+            cout << Examen2->total_puntos <<endl;*/
                 if (Examen2->listaSecciones->preguntasCortas->sig == NULL)
                     break;
                 Examen2->listaSecciones->preguntasCortas = Examen2->listaSecciones->preguntasCortas->sig;
@@ -414,6 +416,7 @@ void responderRC()
             break;
         Examen2->listaSecciones= Examen2->listaSecciones->sig;
     }
+    imprimirRespuestas(Examen2);
 }
 
 /// Función que inserta nuevas preguntas de marcar con x al final de la lista de preguntas de marque con x.
@@ -499,6 +502,7 @@ void responderX()
 {
     struct Examen * inicio = cabezaExamen;
     struct Examen * Examen2 = inicio;
+    struct Secciones * inis = cabezaSec;
     string respuesta, exa;
     while(Examen2!=NULL)
     {
@@ -531,12 +535,12 @@ void responderX()
                         Examen2->listaSecciones->preguntasX->estado = "incorrecta";    //se guarda la pregunta como "incorrecta" si la cantidad de coincidencias es menor al 60% de la pregunta.
                         Examen2->malas ++;
                         }
-                    //Codigo para despues...
+                    /*//Codigo para despues...
                     cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasX->respEst <<endl;
                     cout << "Respuesta Correcta = " + Examen2->listaSecciones->preguntasX->resp <<endl;
                     cout << "Estado de la pregunta = "+ Examen2->listaSecciones->preguntasX->estado << endl;
                     cout << "Puntos totales del examen = ";
-                    cout << Examen2->total_puntos <<endl;
+                    cout << Examen2->total_puntos <<endl;*/
                 }
                 if (Examen2->listaSecciones->preguntasX->sig == NULL)
                     break;
@@ -549,22 +553,44 @@ void responderX()
     imprimirRespuestas(Examen2);
 }
 
-void imprimirRespuestas(Examen2*Examen)
+void imprimirRespuestas(Examen*Examen2)
 {
+    struct Examen * inicio = cabezaExamen;
     string respuesta, exa;
+    Examen2 = NULL;
+    Examen2 = inicio;
     while (Examen2->listaSecciones != NULL){
-                if (Examen2->listaSecciones->preguntasX != NULL){
+                while (Examen2->listaSecciones->preguntasX != NULL){
                     system("cls");
                     cout << "Pregunta = "+ Examen2->listaSecciones->preguntasX->pregunta <<endl;
-                    cout << "Valor = "+ Examen2->listaSecciones->preguntasX->valor+ " pts" <<endl;
+                    cout << "Valor = ";
+                    cout << Examen2->listaSecciones->preguntasX->valor <<endl;
                     cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasX->respEst <<endl;
                     cout << "Respuesta Correcta = " + Examen2->listaSecciones->preguntasX->resp <<endl;
                     cout << "Estado de la pregunta = "+ Examen2->listaSecciones->preguntasX->estado << endl;
                     Sleep(5000);
-                }
-                if (Examen2->listaSecciones->preguntasX->sig == NULL)
+
+                if (Examen2->listaSecciones->preguntasX->ant == NULL)
                     break;
-                Examen2->listaSecciones->preguntasX = Examen2->listaSecciones->preguntasX->sig;
+                Examen2->listaSecciones->preguntasX = Examen2->listaSecciones->preguntasX->ant;
+                }
+                while (Examen2->listaSecciones->preguntasCortas != NULL){
+                    system("cls");
+                    cout << "Pregunta = "+ Examen2->listaSecciones->preguntasCortas->pregunta <<endl;
+                    cout << "Valor = ";
+                    cout << Examen2->listaSecciones->preguntasCortas->valor <<endl;
+                    cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasCortas->respEst <<endl;
+                    cout << "Respuesta Correcta = " + Examen2->listaSecciones->preguntasCortas->resp <<endl;
+                    cout << "Estado de la pregunta = "+ Examen2->listaSecciones->preguntasCortas->estado << endl;
+                    cout << "Porcentaje de igualdad de la respuesta = ";
+                    cout << Examen2->listaSecciones->preguntasCortas->porcentaje;
+                    cout << "%" << endl;
+                    Sleep(5000);
+
+                if (Examen2->listaSecciones->preguntasCortas->ant == NULL)
+                    break;
+                Examen2->listaSecciones->preguntasCortas = Examen2->listaSecciones->preguntasCortas->ant;
+                }
         if (Examen2->listaSecciones->sig == NULL)
             break;
         Examen2->listaSecciones= Examen2->listaSecciones->sig;
@@ -1306,8 +1332,13 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 
 int main()
 {
+
     menu();
     //insertarExamenes();
+
+    //menu();
+    //insertarExamenes();
+
 
     //editarSecciones();
     //editarSecciones();
@@ -1318,7 +1349,10 @@ int main()
     //delPregRespCort();
     //delPregRespCort();
     //delPregMarqX();
+
     //responderRC();
+
+
     //responderX();
     //imprimirListaExamenes();
     //delPregMarqX();

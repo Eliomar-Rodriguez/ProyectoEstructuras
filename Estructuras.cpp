@@ -546,8 +546,32 @@ void responderX()
             break;
         Examen2->listaSecciones= Examen2->listaSecciones->sig;
     }
+    imprimirRespuestas(Examen2);
 }
 
+void imprimirRespuestas(Examen2*Examen)
+{
+    string respuesta, exa;
+    while (Examen2->listaSecciones != NULL){
+                if (Examen2->listaSecciones->preguntasX != NULL){
+                    system("cls");
+                    cout << "Pregunta = "+ Examen2->listaSecciones->preguntasX->pregunta <<endl;
+                    cout << "Valor = "+ Examen2->listaSecciones->preguntasX->valor+ " pts" <<endl;
+                    cout << "Respuesta Introducida = "+ Examen2->listaSecciones->preguntasX->respEst <<endl;
+                    cout << "Respuesta Correcta = " + Examen2->listaSecciones->preguntasX->resp <<endl;
+                    cout << "Estado de la pregunta = "+ Examen2->listaSecciones->preguntasX->estado << endl;
+                    Sleep(5000);
+                }
+                if (Examen2->listaSecciones->preguntasX->sig == NULL)
+                    break;
+                Examen2->listaSecciones->preguntasX = Examen2->listaSecciones->preguntasX->sig;
+        if (Examen2->listaSecciones->sig == NULL)
+            break;
+        Examen2->listaSecciones= Examen2->listaSecciones->sig;
+    }
+    cout << "Puntos totales del examen = ";
+    cout << Examen2->total_puntos <<endl;
+}
 
 /// editar preguntas de marque con x
 void editPregSelecUnic()//falta editar
@@ -1283,7 +1307,7 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 int main()
 {
     menu();
-    insertarExamenes();
+    //insertarExamenes();
 
     //editarSecciones();
     //editarSecciones();
@@ -1305,10 +1329,10 @@ int main()
     insertarpreguntasCortas();
     insertarpreguntasCortas();
     imprimirListaPreguntasRC();*/
-    editPregSelecUnic();
-    editPregSelecUnic();
-    editPregSelecUnic();
-    editPregSelecUnic();
+    //editPregSelecUnic();
+    //editPregSelecUnic();
+    //editPregSelecUnic();
+    //editPregSelecUnic();
 
     //editPregRespCort();
     //editPregRespCort();

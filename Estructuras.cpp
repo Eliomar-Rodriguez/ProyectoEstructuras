@@ -65,7 +65,6 @@ struct Secciones
     struct Secciones* sig;
 }*cabezaSec;
 
-
 void imprimirRespuestas(Examen*Examen2);
 // Función que inserta nuevos examenes al final de la lista de examenes
 struct Examen*insertarExamenes()
@@ -104,7 +103,7 @@ struct Examen*insertarExamenes()
                     cabezaSec = sect;
                     ;}
                 else{
-                    cabezaSec= sect; // ->listaSecciones;
+                    cabezaSec= sect;
                     sect->sig = NULL;
                     cabezaSec = sect;
                     }
@@ -142,23 +141,6 @@ struct Examen*insertarExamenes()
     menu();
 }
 
-//Función que imprime los examenes creados en el sistema
-void imprimirListaExamenes()    /// lo mas seguro es que se elimine
-{
-    struct Examen* temp = cabezaExamen;// se crea un temporal local para no modificar los datos originales
-    while (temp != NULL)
-    {
-        cout << temp->numExam << ") " << temp->nombre << endl; //se imprime el nombre de los examenes en el sistema
-        while(temp->listaSecciones != NULL){//SE CAE PORQUE SE DESBORDA LA LISTA DE PREGUNTASCORTAS...
-            if (temp->listaSecciones->preguntasX != NULL){
-            cout << temp->listaSecciones->numSec <<") "<< temp->listaSecciones->nombre << endl;
-            cout << temp->listaSecciones->preguntasX->numPreg <<") "<< temp->listaSecciones->preguntasX->pregunta << endl;
-            temp->listaSecciones->preguntasX = temp->listaSecciones->preguntasX->sig;}
-            else break;
-            }
-        temp = temp->sig;
-    }
-}
 
 // Función que inserta nuevas preguntas de respuesta corta al final de la lista de preguntas de respuesta corta
 struct RespCort* insertarpreguntasCortas(int numP)
@@ -199,8 +181,9 @@ struct RespCort* insertarpreguntasCortas(int numP)
     nn->ant = NULL;
     return nn;
 }
-//Funcion que crea secciones en un examen
 
+
+//Funcion que crea secciones en un examen
 struct Secciones*insertarSecciones()
 {
     system("cls");
@@ -319,41 +302,8 @@ struct Secciones*insertarSecciones()
         nn->sig->ant = nn;*/
 }
 
-//Función que imprime las preguntas de respuesta corta creadas en el sistema y su respectiva respuesta correcta.
-void imprimirSecciones()    /// lo mas seguro es que se elimine
-{
-    struct Secciones* temp = cabezaSec;
-    //int i = 0;
 
-    while (temp != NULL)
-    {
-        cout <<temp->numSec << endl;
-        /* PUEDE SER UTIL
-        while (temp->preguntasX[i]->sig != NULL){
-            //cout << temp->preguntasCortas[i]->pregunta << endl;
-            cout << temp->preguntasX[i]->pregunta << endl;
-            i++;
-        }*/
-        temp = temp->sig;
-    }
-}
-
-//Función que imprime las preguntas de respuesta corta creadas en el sistema y su respectiva respuesta correcta.
-void imprimirListaPreguntasRC() /// no se ocupara creo
-{
-    struct RespCort* temp = cabezaRC;
-
-    while (temp != NULL)
-    {
-        //cout << temp->pregunta << endl;
-        //cout << temp->resp << endl;
-        cout << temp->valor << endl;
-        temp = temp->sig;
-    }
-}
-
-
-//FunciÃ²n que sirve para responder preguntas de Respuesta Corta
+//Funcion que sirve para responder preguntas de Respuesta Corta
 void responderRC()
 {
     struct Examen * inicio = cabezaExamen;
@@ -425,7 +375,8 @@ void responderRC()
     imprimirRespuestas(Examen2);
 }
 
-/// Función que inserta nuevas preguntas de marcar con x al final de la lista de preguntas de marque con x.
+
+//Función que inserta nuevas preguntas de marcar con x al final de la lista de preguntas de marque con x.
 struct MarqX* insertarPreguntasX(int numP)
 {
     system("cls");
@@ -487,23 +438,7 @@ struct MarqX* insertarPreguntasX(int numP)
 }
 
 
-/// imprimir la lista de preguntas de marque con x
-void imprimirListaPreguntasX()  /// lo mas seguro es que se elimine
-{
-    struct MarqX* temp = cabezaX;
-
-    while (temp != NULL)
-    {
-        cout << temp->pregunta << endl;
-        cout << temp->resp << endl;
-        for (int i = 0; i < 5; i++){
-            cout << temp->opciones[i] << endl;
-        }
-        temp = temp->sig;
-    }
-}
-
-/// responder preguntas de marque con x
+//responder preguntas de marque con x
 void responderX()
 {
     struct Examen * inicio = cabezaExamen;
@@ -559,6 +494,7 @@ void responderX()
     imprimirRespuestas(Examen2);
 }
 
+
 void imprimirRespuestas(Examen*Examen2)
 {
     struct Examen * inicio = cabezaExamen;
@@ -605,8 +541,9 @@ void imprimirRespuestas(Examen*Examen2)
     cout << Examen2->total_puntos <<endl;
 }
 
-/// editar preguntas de marque con x
-void editPregSelecUnic()//falta editar
+
+//editar preguntas de marque con x
+void editPregSelecUnic()// listo
 {
     struct Examen *examAct = cabezaExamen;
     struct Secciones *inicio,*inicio2 = NULL;
@@ -753,8 +690,9 @@ void editPregSelecUnic()//falta editar
     }
 }
 
-/// editar preguntas de respuesta corta
-void editPregRespCort() //falta editar
+
+//editar preguntas de respuesta corta
+void editPregRespCort() // listo
 {
     struct Examen *examAct = cabezaExamen;
     struct Secciones *inicio,*inicio2 = NULL;
@@ -869,7 +807,8 @@ void editPregRespCort() //falta editar
     }
 }
 
-void editarSecciones() /// TOTALMENTE LISTO Y LLAMADO DESDE EL MENU
+
+void editarSecciones() // listo
 {
     cout<<"=================================================================\n=\t\t\tRenombrar secciones\t\t\t=\n=================================================================\n";
     struct Examen *auxi1,*examAct = cabezaExamen;
@@ -946,8 +885,9 @@ void editarSecciones() /// TOTALMENTE LISTO Y LLAMADO DESDE EL MENU
     }
 }
 
-/// eliminar preguntas de respuesta corta
-void delPregRespCort(){
+
+//eliminar preguntas de respuesta corta
+void delPregRespCort(){ // no listo
     struct Examen* tempExam = cabezaExamen;
     int opExam,opSecc,delPreg;
     struct RespCort* temp= cabezaRC;
@@ -1041,22 +981,7 @@ void delPregRespCort(){
 }
 
 
-/// eliminar preguntas de marque con x
-
-bool buscarSec(int n){
-    struct Examen *tempExam = cabezaExamen;
-    while ((tempExam->listaSecciones != NULL)&&(tempExam->listaSecciones->numSec != NULL))
-    {
-        tempExam->listaSecciones = tempExam->listaSecciones->sig;
-    }
-    if ((tempExam->listaSecciones!=NULL)&&(tempExam->listaSecciones->numSec == n))
-        return true;
-    else if ((tempExam->listaSecciones == NULL)&&(tempExam->listaSecciones->numSec != n))
-        return false;
-}
-
-
-/// eliminar preguntas de marque con x
+//eliminar preguntas de marque con x
 struct Examen *delPregMarqX()
 {
     struct Examen* tempExam = cabezaExamen;
@@ -1161,8 +1086,8 @@ struct Examen *delPregMarqX()
 }
 
 
-/// menu principal
-void menu()
+//menu principal
+void menu() // listo
 {
         system("cls");
         char op,opEdit,opDel,opExam;
@@ -1281,7 +1206,8 @@ void menu()
     return;
 }
 
-/// insertar examen de manera manual (solo se ejecuta una vez)
+
+//insertar examen de manera manual (solo se ejecuta una vez)
 void insertExamenManual(string pro,string nom, string pre,string res,string nomSec,int valor)
 {
     //esta pendiente.
@@ -1343,42 +1269,7 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 int main()
 {
 
-    //menu();
-    insertarExamenes();
-
-    //editarSecciones();
-    //editarSecciones();
-
-    //imprimirListaExamenes();
-    //delPregRespCort();
-    //delPregRespCort();
-    //delPregRespCort();
-    //delPregRespCort();
+    menu();
     delPregMarqX();
-
-
-    //delPregMarqX();
-
-    //responderRC();
-    //responderX();
-    //imprimirListaExamenes();
-    delPregMarqX();
-    //delPregRespCort();
-    //insertarpreguntasX();
-    //insertarpreguntasCortas();
-    /*insertarpreguntasCortas();
-    insertarpreguntasCortas();
-    insertarpreguntasCortas();
-    imprimirListaPreguntasRC();*/
-    //editPregSelecUnic();
-    //editPregSelecUnic();
-    //editPregSelecUnic();
-    //editPregSelecUnic();
-
-    //editPregRespCort();
-    //editPregRespCort();
-
-    //delPregMarqX();
-    //delPregMarqX();
     return 0;
 }

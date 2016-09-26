@@ -101,16 +101,17 @@ struct Examen*insertarExamenes()
                 sect = insertarSecciones();
                 if (nn->listaSecciones == NULL){
                     nn->listaSecciones = sect;
-                    cabezaSec = sect;}
+                    cabezaSec = sect;
+                    ;}
                 else{
-                    cabezaSec->sig = sect; // ->listaSecciones;
+                    cabezaSec= sect; // ->listaSecciones;
                     sect->sig = NULL;
                     cabezaSec = sect;
                     }
                 }
             else if ((otra == 'N') || (otra == 'n'))
-                //menu();
-                break;
+                menu();
+                //break;
             else
             {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. El exmamen no se guardo, intentalo de nuevo.\n"<<endl;
@@ -161,6 +162,7 @@ void imprimirListaExamenes()    /// lo mas seguro es que se elimine
 // Función que inserta nuevas preguntas de respuesta corta al final de la lista de preguntas de respuesta corta
 struct RespCort* insertarpreguntasCortas(int numP)
 {
+    system("cls");
     cout<<"=================================================================\n=\t    Insercion de preguntas de Respuesta Breve \t\t=\n=================================================================\n";
     //se crea un nodo nuevo con la información de la pregunta por crear
     struct RespCort* nn;
@@ -173,13 +175,13 @@ struct RespCort* insertarpreguntasCortas(int numP)
     string res;
     string val;
     //se piden los datos al usuario
-    cout << "Escriba la pregunta que desea ingresar." << endl;
+    cout << "Escriba la pregunta que desea ingresar.\n\t";
     getline(cin,pre);
-    cout << "Escriba la respuesta de la pregunta." << endl;
+    cout << "\nEscriba la respuesta de la pregunta.\n\t";
     getline(cin,res);
     for(int i = 0; res[i]; i++)
           res[i] = tolower(res[i]);
-    cout << "Escriba el valor de la pregunta." << endl;
+    cout << "\nscriba el valor de la pregunta.\n\t";
     getline(cin,val);
     int valor = atoi(val.c_str());
 
@@ -244,8 +246,10 @@ struct Secciones*insertarSecciones()
                 }
                 pregX++;
             }
-            else if ((otra == 'N') || (otra == 'n'))
+            else if ((otra == 'N') || (otra == 'n')){
                 break;
+
+                }
             else
             {
                 cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
@@ -285,13 +289,14 @@ struct Secciones*insertarSecciones()
             }
     }
     else
-        {
+    {
         cout<<"\n\nDebe de ingresar una de las opciones indicadas. La seccion no se guardo, intentalo de nuevo.\n"<<endl;
         Sleep(2000);
         insertarSecciones();
-        }
+    }
 
     cantSec++;
+
     return nn;
     ///comentario de insertar ordenado
     /*///inseetar ordenado
@@ -1055,10 +1060,13 @@ struct Examen *delPregMarqX()
 {
     struct Examen* tempExam = cabezaExamen;
     struct Examen *auxiliar = cabezaExamen;
+
     struct Secciones *auxiliar2 = cabezaSec;
     struct Secciones *auxiliar3 = cabezaSec;
+
     struct MarqX *anterior = cabezaX;
     struct MarqX * pregDel;
+
     int opExam,delPreg,opSec;  // almacenara la pregunta a eliminar
     int numPreg=1,y=0,x=0,z=0,h=0;  //numero de pregunta, variables para las posiciones
     string opSec2,delPreg2;
@@ -1186,7 +1194,7 @@ void menu()
                             }
                         case '2':
                             {
-                                //editPregSelecUnic();
+                                editPregSelecUnic();
                                 break;
                             }
                         case '3':
@@ -1221,16 +1229,17 @@ void menu()
                         case '1':
                             {
                                 cout<<"Falta relajado compa...";
+
                                 break;
                             }
                         case '2':
                             {
-                                //delPregMarqX();
+                                delPregMarqX();
                                 break;
                             }
                         case '3':
                             {
-                                //delPregRespCort();
+                                delPregRespCort();
                                 break;
                             }
                         case '4':
@@ -1333,8 +1342,8 @@ void insertExamenManual(string pro,string nom, string pre,string res,string nomS
 int main()
 {
 
-    menu();
-    //insertarExamenes();
+    //menu();
+    insertarExamenes();
 
     //menu();
     //insertarExamenes();
@@ -1348,14 +1357,14 @@ int main()
     //delPregRespCort();
     //delPregRespCort();
     //delPregRespCort();
-    //delPregMarqX();
+    delPregMarqX();
 
     //responderRC();
 
 
     //responderX();
     //imprimirListaExamenes();
-    //delPregMarqX();
+    delPregMarqX();
     //delPregRespCort();
     //insertarpreguntasX();
     //insertarpreguntasCortas();
